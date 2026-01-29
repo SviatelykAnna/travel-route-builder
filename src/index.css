@@ -1,0 +1,27 @@
+@import 'tailwindcss';
+@import 'https://fonts.googleapis.com/css2?family=Inter&display=swap';
+
+@theme {
+  --font-inter: 'Inter', system-ui, sans-serif;
+
+  --color-background: #fafafa;
+  --color-dark-grey: #373530;
+  --color-light-grey: #f7f7f7;
+  --color-accent: #2563eb;
+}
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+    --react-flow-bg: var(--color-background);
+  }
+
+  html {
+    @apply font-inter text-dark-grey;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
