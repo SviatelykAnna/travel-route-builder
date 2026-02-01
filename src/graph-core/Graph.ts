@@ -1,7 +1,8 @@
 import type { Edge } from '@xyflow/react';
 
-import { GraphJSONSchema } from './graphSchema';
+import { GraphJSONSchema, type GraphNodeJSON } from './graphSchema';
 import { CountryNode } from './nodes/CountryNode';
+import { HotelNode } from './nodes/HotelNode';
 import { type GraphFlowNode, type GraphNode, NODE_TYPES } from './types';
 
 export class Graph {
@@ -59,16 +60,6 @@ export class Graph {
     });
   }
 
-  getReactFlowNodes(): GraphFlowNode[] {
-    console.log(this.nodes);
-    return Array.from(this.nodes.values()).map(({ id, type, position, data }) => ({
-      id,
-      type,
-      position,
-      data,
-    }));
-  }
-
   getNode(id: string) {
     const node = this.nodes.get(id);
     if (!node) {
@@ -78,8 +69,41 @@ export class Graph {
     return node;
   }
 
-  addNode(node: GraphNode) {
-    this.nodes.set(node.id, node);
+  addNode(node: GraphNodeJSON) {
+    switch (node.type) {
+      case NODE_TYPES.COUNTRY:
+        this.nodes.set(
+          node.id,
+          new CountryNode({
+            id: node.id,
+            position: node.position,
+            data: node.data,
+          }),
+        );
+        break;
+      case NODE_TYPES.HOTEL:
+        this.nodes.set(
+          node.id,
+          new HotelNode({ id: node.id, position: node.position, data: node.data }),
+        );
+        break;
+    }
+  }
+
+  addEdge(source: string, target: string) {
+    if (source === target) {
+      throw new Error('Source and target cannot be the same');
+    }
+
+    if (!source || !target) {
+      throw new Error('Source or target cannot be empty');
+    }
+
+    if (this.adjacencyList.has(source)) {
+      this.adjacencyList.get(source)?.add(target);
+    } else {
+      this.adjacencyList.set(source, new Set([target]));
+    }
   }
 
   getReactFlowEdges(): Edge[] {
@@ -96,5 +120,14 @@ export class Graph {
     }
 
     return edges;
+  }
+
+  getReactFlowNodes(): GraphFlowNode[] {
+    return Array.from(this.nodes.values()).map(({ id, type, position, data }) => ({
+      id,
+      type,
+      position,
+      data,
+    }));
   }
 }

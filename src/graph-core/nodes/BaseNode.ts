@@ -15,7 +15,6 @@ export class BaseNode<TData extends Record<string, unknown>, TType extends NodeT
   }
 
   setPosition(position: XYPosition) {
-    console.log({ position });
     this.position = position;
     return this;
   }

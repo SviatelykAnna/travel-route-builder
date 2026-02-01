@@ -1,6 +1,8 @@
 import type { Node } from '@xyflow/react';
 
-import type { CountryNode, CountryNodeData } from './nodes/CountryNode';
+import type { CountryNodeData, HotelNodeData } from './graphSchema';
+import type { CountryNode } from './nodes/CountryNode';
+import type { HotelNode } from './nodes/HotelNode';
 
 export const NODE_TYPES = {
   BEACH: 'beach',
@@ -10,7 +12,7 @@ export const NODE_TYPES = {
 
 export type NodeType = (typeof NODE_TYPES)[keyof typeof NODE_TYPES];
 
-export type GraphNode = CountryNode;
-export type GraphNodeData = CountryNodeData;
+export type GraphNode = CountryNode | HotelNode;
+export type GraphNodeData = CountryNodeData | HotelNodeData;
 
 export type GraphFlowNode = Node<GraphNodeData, NodeType>;

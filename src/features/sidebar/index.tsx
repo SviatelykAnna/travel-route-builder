@@ -5,6 +5,8 @@ import { Spinner } from '@/components/ui/spinner';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { useGetAllCountries } from '@/services/rest-countries/queries';
 
+import { CountryItem } from './CountryItem';
+
 export const CountriesSidebar = () => {
   const { data, isLoading } = useGetAllCountries();
 
@@ -35,18 +37,7 @@ export const CountriesSidebar = () => {
         ) : (
           <ul>
             {filteredCountries?.map((country) => (
-              <div
-                draggable="true"
-                className="flex cursor-grab items-center gap-2 p-3 transition-colors hover:bg-amber-400/10"
-                key={country.cca2}
-              >
-                <img
-                  src={country.flags.png}
-                  alt={country.name.common}
-                  className="h-auto w-5 shrink-0"
-                />
-                <p className="text-sm">{country.name.common}</p>
-              </div>
+              <CountryItem key={country.cca2} {...country} />
             ))}
           </ul>
         )}
