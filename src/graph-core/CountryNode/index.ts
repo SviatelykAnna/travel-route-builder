@@ -1,17 +1,6 @@
-import type { XYPosition } from '@xyflow/react';
-
 import { BaseNode } from '../BaseNode';
+import type { CountryNodeData, XYPosition } from '../graphSchema';
 import { NODE_TYPES } from '../types';
-
-export type CountryNodeData = {
-  cca2: string;
-  flags: { png: string; svg: string; alt?: string };
-  name: {
-    common: string;
-    official: string;
-    nativeName?: Record<string, unknown>;
-  };
-};
 
 export class CountryNode extends BaseNode<CountryNodeData, typeof NODE_TYPES.COUNTRY> {
   static TYPE = NODE_TYPES.COUNTRY;

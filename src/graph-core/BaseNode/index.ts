@@ -1,5 +1,4 @@
-import type { XYPosition } from '@xyflow/react';
-
+import type { XYPosition } from '../graphSchema';
 import type { NodeType } from '../types';
 
 export class BaseNode<TData extends Record<string, unknown>, TType extends NodeType = NodeType> {

@@ -25,16 +25,8 @@ const mockData = JSON.stringify({
         name: {
           common: 'Germany',
           official: 'Federal Republic of Germany',
-          nativeName: {
-            deu: {
-              official: 'Bundesrepublik Deutschland',
-              common: 'Deutschland',
-            },
-          },
         },
         cca2: 'DE',
-        region: 'Europe',
-        population: 83491249,
       },
     },
     {
@@ -50,16 +42,8 @@ const mockData = JSON.stringify({
         name: {
           common: 'France',
           official: 'French Republic',
-          nativeName: {
-            fra: {
-              official: 'République française',
-              common: 'France',
-            },
-          },
         },
         cca2: 'FR',
-        region: 'Europe',
-        population: 66351959,
       },
     },
   ],
@@ -69,9 +53,9 @@ const mockData = JSON.stringify({
   ],
 });
 
-const graph = new Graph(Graph.fromJSON(mockData));
-
 function App() {
+  // REDO
+  const [graph] = useState(new Graph(Graph.fromJSON(mockData)));
   const graphRef = useRef(graph);
 
   const [nodes, setNodes] = useState(() => graph.getReactFlowNodes());
