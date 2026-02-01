@@ -131,12 +131,16 @@ function App() {
 
   const onConnect = useCallback(
     (params: Connection) => {
-      graph.addEdge(params.source, params.target);
+      try {
+        graph.addEdge(params.source, params.target);
 
-      setEdges((prevState) => [
-        ...prevState,
-        { id: `${params.source}-${params.target}`, source: params.source, target: params.target },
-      ]);
+        setEdges((prevState) => [
+          ...prevState,
+          { id: `${params.source}-${params.target}`, source: params.source, target: params.target },
+        ]);
+      } catch (error) {
+        console.error(error);
+      }
     },
     [graph],
   );

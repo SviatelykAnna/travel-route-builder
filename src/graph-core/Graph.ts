@@ -99,6 +99,10 @@ export class Graph {
       throw new Error('Source or target cannot be empty');
     }
 
+    if (this._checkConnectionHasCycle({ source, target })) {
+      throw new Error('Connection would create a cycle');
+    }
+
     if (this.adjacencyList.has(source)) {
       this.adjacencyList.get(source)?.add(target);
     } else {
@@ -129,5 +133,35 @@ export class Graph {
       position,
       data,
     }));
+  }
+
+  _checkConnectionHasCycle({ source, target }: { source: string; target: string }) {
+    if (source === target) {
+      return true;
+    }
+
+    const queue = [target];
+
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (!current) {
+        continue;
+      }
+
+      const targets = this.adjacencyList.get(current);
+      if (!targets) {
+        continue;
+      }
+
+      for (const target of targets) {
+        if (target === source) {
+          return true;
+        }
+
+        queue.push(target);
+      }
+    }
+
+    return false;
   }
 }
