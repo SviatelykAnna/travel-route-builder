@@ -19,7 +19,7 @@ import { useCallback, useState } from 'react';
 import { nodeTypes } from './features/canvas/nodes';
 import { CountriesSidebar } from './features/sidebar';
 import { Graph } from './graph-core/Graph';
-import { GraphNodeJSONSchema, type XYPosition } from './graph-core/graphSchema';
+import { GraphNodeJSONSchema } from './graph-core/graphSchema';
 import type { GraphFlowNode } from './graph-core/types';
 import { defaultEdgeOptions } from './lib/constants';
 
@@ -69,7 +69,6 @@ const mockData = JSON.stringify({
 
 function App() {
   const [graph] = useState(new Graph(Graph.fromJSON(mockData)));
-  console.log({ graph });
 
   const { screenToFlowPosition } = useReactFlow();
 
@@ -119,7 +118,7 @@ function App() {
       const position = screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
-      }) as XYPosition;
+      });
 
       const node = GraphNodeJSONSchema.parse({ ...parsedData, position });
 
