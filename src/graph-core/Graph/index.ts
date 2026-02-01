@@ -1,0 +1,99 @@
+import type { Edge } from '@xyflow/react';
+
+import { CountryNode } from '../CountryNode';
+import { type GraphFlowNode, type GraphNode, NODE_TYPES } from '../types';
+
+export class Graph {
+  nodes: Map<string, GraphNode>;
+  adjacencyList: Map<string, Set<string>>;
+
+  constructor(args?: { nodes: Map<string, GraphNode>; adjacencyList: Map<string, Set<string>> }) {
+    if (args) {
+      this.nodes = args.nodes;
+      this.adjacencyList = args.adjacencyList;
+    } else {
+      this.nodes = new Map();
+      this.adjacencyList = new Map();
+    }
+  }
+
+  static fromJSON(jsonData: string) {
+    const parsed = JSON.parse(jsonData);
+
+    const nodes = new Map<string, GraphNode>();
+    // TO-DO: fix type after adding validations for the nodes and edges
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    for (const n of parsed.nodes as Array<any>) {
+      switch (n.type) {
+        case NODE_TYPES.COUNTRY:
+          nodes.set(n.id, new CountryNode({ id: n.id, position: n.position, data: n.data }));
+          break;
+        default:
+          throw new Error(`Unknown node type: ${n.type}`);
+      }
+    }
+
+    console.log({ parsedEdges: parsed.edges });
+
+    const adjacencyList = new Map<string, Set<string>>();
+    for (const { source, targets } of parsed.edges) {
+      adjacencyList.set(source, new Set(targets));
+    }
+
+    return new Graph({ nodes, adjacencyList });
+  }
+
+  toJSON() {
+    return JSON.stringify({
+      nodes: Array.from(this.nodes.values()).map((n) => ({
+        id: n.id,
+        type: n.type,
+        position: n.position,
+        data: n.data,
+      })),
+      adjacencyList: Array.from(this.adjacencyList.entries()).map(([source, targets]) => ({
+        source,
+        targets: Array.from(targets),
+      })),
+    });
+  }
+
+  getReactFlowNodes(): GraphFlowNode[] {
+    console.log(this.nodes);
+    return Array.from(this.nodes.values()).map(({ id, type, position, data }) => ({
+      id,
+      type,
+      position,
+      data,
+    }));
+  }
+
+  getNode(id: string) {
+    const node = this.nodes.get(id);
+    if (!node) {
+      throw new Error(`Node with id ${id} not found`);
+    }
+
+    return node;
+  }
+
+  addNode(node: GraphNode) {
+    this.nodes.set(node.id, node);
+  }
+
+  getReactFlowEdges(): Edge[] {
+    const edges = [];
+
+    for (const [source, targets] of this.adjacencyList) {
+      for (const target of targets) {
+        edges.push({
+          id: `${source}->${target}`,
+          source,
+          target,
+        });
+      }
+    }
+
+    return edges;
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "nodes": {
+    "DE": {
+      "id": "DE",
+      "type": "country",
+      "position": { "x": 120, "y": 80 },
+      "data": {
+        "flags": {
+          "png": "https://flagcdn.com/w320/de.png",
+          "svg": "https://flagcdn.com/de.svg",
+          "alt": "The flag of Germany is composed of three equal horizontal bands of black, red and gold."
+        },
+        "name": {
+          "common": "Germany",
+          "official": "Federal Republic of Germany",
+          "nativeName": {
+            "deu": {
+              "official": "Bundesrepublik Deutschland",
+              "common": "Deutschland"
+            }
+          }
+        },
+        "cca2": "DE",
+        "region": "Europe",
+        "population": 83491249
+      }
+    },
+    "FR": {
+      "id": "FR",
+      "type": "country",
+      "position": { "x": 300, "y": 80 },
+      "data": {
+        "flags": {
+          "png": "https://flagcdn.com/w320/fr.png",
+          "svg": "https://flagcdn.com/fr.svg",
+          "alt": "The flag of France is composed of three equal vertical bands of blue, white and red."
+        },
+        "name": {
+          "common": "France",
+          "official": "French Republic",
+          "nativeName": {
+            "fra": {
+              "official": "République française",
+              "common": "France"
+            }
+          }
+        },
+        "cca2": "FR",
+        "region": "Europe",
+        "population": 66351959
+      }
+    }
+  },
+  "adjacencyList": {
+    "DE": ["FR"],
+    "FR": []
+  }
+}
