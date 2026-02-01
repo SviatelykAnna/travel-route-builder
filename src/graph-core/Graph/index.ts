@@ -1,6 +1,7 @@
 import type { Edge } from '@xyflow/react';
 
 import { CountryNode } from '../CountryNode';
+import { GraphJSONSchema } from '../graphSchema';
 import { type GraphFlowNode, type GraphNode, NODE_TYPES } from '../types';
 
 export class Graph {
@@ -18,12 +19,13 @@ export class Graph {
   }
 
   static fromJSON(jsonData: string) {
-    const parsed = JSON.parse(jsonData);
+    const parsedData = JSON.parse(jsonData);
+    const validatedGraphData = GraphJSONSchema.parse(parsedData);
+    const { nodes: nodesData, edges: edgesData } = validatedGraphData;
 
     const nodes = new Map<string, GraphNode>();
-    // TO-DO: fix type after adding validations for the nodes and edges
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    for (const n of parsed.nodes as Array<any>) {
+
+    for (const n of nodesData) {
       switch (n.type) {
         case NODE_TYPES.COUNTRY:
           nodes.set(n.id, new CountryNode({ id: n.id, position: n.position, data: n.data }));
@@ -33,10 +35,9 @@ export class Graph {
       }
     }
 
-    console.log({ parsedEdges: parsed.edges });
-
     const adjacencyList = new Map<string, Set<string>>();
-    for (const { source, targets } of parsed.edges) {
+
+    for (const { source, targets } of edgesData) {
       adjacencyList.set(source, new Set(targets));
     }
 
