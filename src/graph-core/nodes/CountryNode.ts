@@ -1,6 +1,6 @@
-import { BaseNode } from '../BaseNode';
 import type { CountryNodeData, XYPosition } from '../graphSchema';
 import { NODE_TYPES } from '../types';
+import { BaseNode } from './BaseNode';
 
 export class CountryNode extends BaseNode<CountryNodeData, typeof NODE_TYPES.COUNTRY> {
   static TYPE = NODE_TYPES.COUNTRY;

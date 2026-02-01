@@ -1,8 +1,8 @@
 import type { Edge } from '@xyflow/react';
 
-import { CountryNode } from '../CountryNode';
-import { GraphJSONSchema } from '../graphSchema';
-import { type GraphFlowNode, type GraphNode, NODE_TYPES } from '../types';
+import { GraphJSONSchema } from './graphSchema';
+import { CountryNode } from './nodes/CountryNode';
+import { type GraphFlowNode, type GraphNode, NODE_TYPES } from './types';
 
 export class Graph {
   nodes: Map<string, GraphNode>;

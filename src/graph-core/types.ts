@@ -1,6 +1,6 @@
 import type { Node } from '@xyflow/react';
 
-import type { CountryNode, CountryNodeData } from './CountryNode';
+import type { CountryNode, CountryNodeData } from './nodes/CountryNode';
 
 export const NODE_TYPES = {
   BEACH: 'beach',
