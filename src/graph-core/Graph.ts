@@ -1,6 +1,8 @@
 import type { Edge } from '@xyflow/react';
 
-import { GraphJSONSchema, type GraphNodeJSON } from './graphSchema';
+import { GraphNodeJSONSchema } from '@/graph-core/graphSchema';
+
+import { GraphJSONSchema } from './graphSchema';
 import { CountryNode } from './nodes/CountryNode';
 import { HotelNode } from './nodes/HotelNode';
 import { type GraphFlowNode, type GraphNode, NODE_TYPES } from './types';
@@ -70,22 +72,28 @@ export class Graph {
     return node;
   }
 
-  addNode(node: GraphNodeJSON) {
-    switch (node.type) {
+  addNode(node: unknown) {
+    const validatedNode = GraphNodeJSONSchema.parse(node);
+
+    switch (validatedNode.type) {
       case NODE_TYPES.COUNTRY:
         this.nodes.set(
-          node.id,
+          validatedNode.id,
           new CountryNode({
-            id: node.id,
-            position: node.position,
-            data: node.data,
+            id: validatedNode.id,
+            position: validatedNode.position,
+            data: validatedNode.data,
           }),
         );
         break;
       case NODE_TYPES.HOTEL:
         this.nodes.set(
-          node.id,
-          new HotelNode({ id: node.id, position: node.position, data: node.data }),
+          validatedNode.id,
+          new HotelNode({
+            id: validatedNode.id,
+            position: validatedNode.position,
+            data: validatedNode.data,
+          }),
         );
         break;
     }

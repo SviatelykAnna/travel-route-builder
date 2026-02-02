@@ -18,9 +18,9 @@ import '@xyflow/react/dist/style.css';
 import { useCallback, useState } from 'react';
 
 import { toast } from 'sonner';
+import { z } from 'zod';
 
 import { Graph } from '@/graph-core/Graph';
-import { GraphNodeJSONSchema } from '@/graph-core/graphSchema';
 import type { GraphFlowNode } from '@/graph-core/types';
 
 import { defaultEdgeOptions, nodeTypes } from './lib/constants';
@@ -79,11 +79,22 @@ const Canvas = () => {
         y: event.clientY,
       });
 
-      const node = GraphNodeJSONSchema.parse({ ...parsedData, position });
+      try {
+        const node = { ...parsedData, position };
+        graph.addNode({
+          ...parsedData,
+          position,
+        });
 
-      graph.addNode(node);
+        setNodes((prevState) => [...prevState, node]);
+      } catch (error) {
+        console.error(error);
 
-      setNodes((prevState) => [...prevState, node]);
+        if (error instanceof z.ZodError) {
+          toast.error('Invalid node data');
+          return;
+        }
+      }
     },
     [graph, screenToFlowPosition],
   );
