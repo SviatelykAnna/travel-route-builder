@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
 
-import { Input } from '@/components/ui/input';
-import { Spinner } from '@/components/ui/spinner';
+import { Input } from '@/components/ui/Input1';
+import { Spinner } from '@/components/ui/Spinner1';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { useGetAllCountries } from '@/services/rest-countries/queries';
 
 import { CountryItem } from './CountryItem';
 
-export const CountriesSidebar = () => {
+export const Sidebar = () => {
   const { data, isLoading } = useGetAllCountries();
 
   const [searchQuery, setSearchQuery] = useState('');

@@ -1,5 +1,7 @@
 import type { Edge } from '@xyflow/react';
 
+import { toast } from 'sonner';
+
 import { GraphJSONSchema, type GraphNodeJSON } from './graphSchema';
 import { CountryNode } from './nodes/CountryNode';
 import { HotelNode } from './nodes/HotelNode';
@@ -19,9 +21,8 @@ export class Graph {
     }
   }
 
-  static fromJSON(jsonData: string) {
-    const parsedData = JSON.parse(jsonData);
-    const validatedGraphData = GraphJSONSchema.parse(parsedData);
+  static fromJSON(data: unknown) {
+    const validatedGraphData = GraphJSONSchema.parse(data);
     const { nodes: nodesData, edges: edgesData } = validatedGraphData;
 
     const nodes = new Map<string, GraphNode>();
@@ -92,6 +93,7 @@ export class Graph {
 
   addEdge(source: string, target: string) {
     if (source === target) {
+      toast.error('Source and target cannot be the same');
       throw new Error('Source and target cannot be the same');
     }
 

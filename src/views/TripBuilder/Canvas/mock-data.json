@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "nodes": {
-    "DE": {
+  "nodes": [
+    {
       "id": "DE",
       "type": "country",
       "position": { "x": 120, "y": 80 },
@@ -13,20 +13,12 @@
         },
         "name": {
           "common": "Germany",
-          "official": "Federal Republic of Germany",
-          "nativeName": {
-            "deu": {
-              "official": "Bundesrepublik Deutschland",
-              "common": "Deutschland"
-            }
-          }
+          "official": "Federal Republic of Germany"
         },
-        "cca2": "DE",
-        "region": "Europe",
-        "population": 83491249
+        "cca2": "DE"
       }
     },
-    "FR": {
+    {
       "id": "FR",
       "type": "country",
       "position": { "x": 300, "y": 80 },
@@ -38,22 +30,20 @@
         },
         "name": {
           "common": "France",
-          "official": "French Republic",
-          "nativeName": {
-            "fra": {
-              "official": "République française",
-              "common": "France"
-            }
-          }
+          "official": "French Republic"
         },
-        "cca2": "FR",
-        "region": "Europe",
-        "population": 66351959
+        "cca2": "FR"
       }
     }
-  },
-  "adjacencyList": {
-    "DE": ["FR"],
-    "FR": []
-  }
+  ],
+  "edges": [
+    {
+      "source": "DE",
+      "targets": ["FR"]
+    },
+    {
+      "source": "FR",
+      "targets": []
+    }
+  ]
 }
