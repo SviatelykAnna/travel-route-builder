@@ -20,7 +20,7 @@ import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-import Button from '@/components/ui/ButtonCore';
+import Button from '@/components/ui/Button';
 import type { GraphEdge } from '@/graph-core';
 import { EdgesValidator } from '@/graph-core/EdgesValidator';
 import { Graph } from '@/graph-core/Graph';
