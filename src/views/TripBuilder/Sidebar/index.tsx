@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
-import { Input } from '@/components/ui/Input1';
-import { Spinner } from '@/components/ui/Spinner1';
+import { Input } from '@/components/atoms/Input';
+import { Spinner } from '@/components/atoms/Spinner';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { useGetAllCountries } from '@/services/rest-countries/queries';
 
