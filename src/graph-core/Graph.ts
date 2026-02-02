@@ -43,7 +43,7 @@ export class Graph {
       adjacencyList.set(source, new Set(targets));
     }
 
-    return new Graph({ nodes, adjacencyList });
+    return { nodes, adjacencyList };
   }
 
   toJSON() {
