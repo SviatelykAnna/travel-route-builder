@@ -20,19 +20,22 @@ import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
+import { EdgesValidator } from '@/graph-core/EdgesValidator';
 import { Graph } from '@/graph-core/Graph';
-import type { GraphFlowNode } from '@/graph-core/types';
 
-import { defaultEdgeOptions, nodeTypes } from './lib/constants';
+import { defaultEdgeOptions, nodeTypes, routeRules } from './lib/constants';
 import mockData from './mock-data.json';
+import type { GraphFlowNode } from './types';
 
 const Canvas = () => {
-  const [graph] = useState(new Graph(Graph.fromJSON(mockData)));
+  const [graph] = useState(() =>
+    Graph.fromJSON(mockData, { edgeValidator: new EdgesValidator({ rulesJSON: routeRules }) }),
+  );
 
   const { screenToFlowPosition } = useReactFlow();
 
-  const [nodes, setNodes] = useState(() => graph.getReactFlowNodes());
-  const [edges, setEdges] = useState(() => graph.getReactFlowEdges());
+  const [nodes, setNodes] = useState<GraphFlowNode[]>(() => graph.getNodes() as GraphFlowNode[]);
+  const [edges, setEdges] = useState(() => graph.getEdges());
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes: NodeChange[]) => {
@@ -106,7 +109,11 @@ const Canvas = () => {
 
         setEdges((prevState) => [
           ...prevState,
-          { id: `${params.source}-${params.target}`, source: params.source, target: params.target },
+          {
+            id: `${params.source}->${params.target}`,
+            source: params.source,
+            target: params.target,
+          },
         ]);
       } catch (error) {
         toast.error((error as Error).message);

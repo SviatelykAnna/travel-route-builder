@@ -2,10 +2,10 @@ import { Handle, Position } from '@xyflow/react';
 import type { Node, NodeProps } from '@xyflow/react';
 import { memo } from 'react';
 
-import type { CountryNodeData } from '@/graph-core/graphSchema';
-import { NODE_TYPES } from '@/graph-core/types';
+import type { CountryNodeData } from '../lib/graphSchema';
+import type { NODE_TYPES } from '../types';
 
-type CountryNode = Node<CountryNodeData, typeof NODE_TYPES.COUNTRY>;
+export type CountryNode = Node<CountryNodeData, typeof NODE_TYPES.COUNTRY>;
 
 const CountryNode = ({ data }: NodeProps<CountryNode>) => {
   return (

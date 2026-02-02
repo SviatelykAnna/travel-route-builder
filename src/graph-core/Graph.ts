@@ -1,52 +1,49 @@
-import type { Edge } from '@xyflow/react';
-
-import { GraphNodeJSONSchema } from '@/graph-core/graphSchema';
-
-import { GraphJSONSchema } from './graphSchema';
-import { CountryNode } from './nodes/CountryNode';
-import { HotelNode } from './nodes/HotelNode';
-import { type GraphFlowNode, type GraphNode, NODE_TYPES } from './types';
+import type { EdgesValidator } from './EdgesValidator';
+import { GraphJSONSchema, NodeJSONSchema } from './graphSchema';
+import type { GraphEdge, GraphNode } from './graphSchema';
+import { BaseNode } from './nodes/BaseNode';
 
 export class Graph {
-  nodes: Map<string, GraphNode>;
+  nodes: Map<string, BaseNode>;
   adjacencyList: Map<string, Set<string>>;
+  private edgeValidator: EdgesValidator | undefined;
 
-  constructor(args?: { nodes: Map<string, GraphNode>; adjacencyList: Map<string, Set<string>> }) {
-    if (args) {
-      this.nodes = args.nodes;
-      this.adjacencyList = args.adjacencyList;
-    } else {
-      this.nodes = new Map();
-      this.adjacencyList = new Map();
-    }
+  constructor(args?: {
+    nodes?: Map<string, BaseNode>;
+    adjacencyList?: Map<string, Set<string>>;
+    edgeValidator?: EdgesValidator;
+  }) {
+    this.nodes = args?.nodes ?? new Map();
+    this.adjacencyList = args?.adjacencyList ?? new Map();
+    this.edgeValidator = args?.edgeValidator;
   }
 
-  static fromJSON(data: unknown) {
-    const validatedGraphData = GraphJSONSchema.parse(data);
-    const { nodes: nodesData, adjacencyList: adjacencyListData } = validatedGraphData;
+  static fromJSON(data: unknown, options?: { edgeValidator?: EdgesValidator }): Graph {
+    const validated = GraphJSONSchema.parse(data);
+    const { nodes: nodesData, adjacencyList: adjacencyListData } = validated;
 
-    const nodes = new Map<string, GraphNode>();
-
+    const nodes = new Map<string, BaseNode>();
     for (const n of nodesData) {
-      switch (n.type) {
-        case NODE_TYPES.COUNTRY:
-          nodes.set(n.id, new CountryNode({ id: n.id, position: n.position, data: n.data }));
-          break;
-        default:
-          throw new Error(`Unknown node type: ${n.type}`);
-      }
+      nodes.set(
+        n.id,
+        new BaseNode({
+          id: n.id,
+          type: n.type,
+          position: n.position,
+          data: n.data as Record<string, unknown>,
+        }),
+      );
     }
 
     const adjacencyList = new Map<string, Set<string>>();
-
     for (const [source, targets] of Object.entries(adjacencyListData)) {
       adjacencyList.set(source, new Set(targets));
     }
 
-    return { nodes, adjacencyList };
+    return new Graph({ nodes, adjacencyList, edgeValidator: options?.edgeValidator });
   }
 
-  toJSON() {
+  toJSON(): string {
     return JSON.stringify({
       nodes: Array.from(this.nodes.values()).map((n) => ({
         id: n.id,
@@ -63,114 +60,81 @@ export class Graph {
     });
   }
 
-  getNode(id: string) {
+  getNode(id: string): BaseNode {
     const node = this.nodes.get(id);
     if (!node) {
       throw new Error(`Node with id ${id} not found`);
     }
-
     return node;
   }
 
-  addNode(node: unknown) {
-    const validatedNode = GraphNodeJSONSchema.parse(node);
-
-    switch (validatedNode.type) {
-      case NODE_TYPES.COUNTRY:
-        this.nodes.set(
-          validatedNode.id,
-          new CountryNode({
-            id: validatedNode.id,
-            position: validatedNode.position,
-            data: validatedNode.data,
-          }),
-        );
-        break;
-      case NODE_TYPES.HOTEL:
-        this.nodes.set(
-          validatedNode.id,
-          new HotelNode({
-            id: validatedNode.id,
-            position: validatedNode.position,
-            data: validatedNode.data,
-          }),
-        );
-        break;
-    }
+  addNode(node: unknown): void {
+    const validated = NodeJSONSchema.parse(node);
+    this.nodes.set(
+      validated.id,
+      new BaseNode({
+        id: validated.id,
+        type: validated.type,
+        position: validated.position,
+        data: validated.data as Record<string, unknown>,
+      }),
+    );
   }
 
-  addEdge(source: string, target: string) {
+  addEdge(source: string, target: string): void {
     if (source === target) {
-      throw new Error('You can’t connect a country to itself.');
+      throw new Error('Source and target cannot be the same.');
     }
-
     if (!source || !target) {
       throw new Error('Source or target cannot be empty');
     }
-
-    if (this._checkConnectionHasCycle({ source, target })) {
-      throw new Error('This connection would create a loop in your trip.');
+    if (this.edgeValidator?.isRouteBlocked(source, target)) {
+      throw new Error('This route is not allowed.');
+    }
+    if (this._wouldCreateCycle(source, target)) {
+      throw new Error('This connection would create a loop.');
     }
 
-    if (this.adjacencyList.has(source)) {
-      this.adjacencyList.get(source)?.add(target);
+    const targets = this.adjacencyList.get(source);
+    if (targets) {
+      targets.add(target);
     } else {
       this.adjacencyList.set(source, new Set([target]));
     }
   }
 
-  getReactFlowEdges(): Edge[] {
-    const edges = [];
-
+  getEdges(): GraphEdge[] {
+    const edges: GraphEdge[] = [];
     for (const [source, targets] of this.adjacencyList) {
       for (const target of targets) {
-        edges.push({
-          id: `${source}->${target}`,
-          source,
-          target,
-        });
+        edges.push({ id: `${source}->${target}`, source, target });
       }
     }
-
     return edges;
   }
 
-  getReactFlowNodes(): GraphFlowNode[] {
-    return Array.from(this.nodes.values()).map(({ id, type, position, data }) => ({
-      id,
-      type,
-      position,
-      data,
+  getNodes(): GraphNode[] {
+    return Array.from(this.nodes.values()).map((n) => ({
+      id: n.id,
+      type: n.type,
+      position: n.position,
+      data: n.data,
     }));
   }
 
-  _checkConnectionHasCycle({ source, target }: { source: string; target: string }) {
-    if (source === target) {
-      return true;
-    }
-
-    const queue = [target];
+  private _wouldCreateCycle(source: string, target: string): boolean {
+    if (source === target) return true;
+    const queue: string[] = [target];
 
     while (queue.length > 0) {
-      const current = queue.shift();
-      if (!current) {
-        continue;
-      }
-
+      const current = queue.shift()!;
       const targets = this.adjacencyList.get(current);
-      if (!targets) {
-        continue;
-      }
-
-      for (const target of targets) {
-        if (target === source) {
-          return true;
-        }
-
-        queue.push(target);
+      if (!targets) continue;
+      for (const t of targets) {
+        if (t === source) return true;
+        queue.push(t);
       }
     }
-
     return false;
   }
 }

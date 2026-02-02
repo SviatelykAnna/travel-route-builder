@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
-import type { CountryNodeData } from '@/graph-core/graphSchema';
-import { NODE_TYPES } from '@/graph-core/types';
+import type { CountryNodeData } from '../Canvas/lib/graphSchema';
+import { NODE_TYPES } from '../Canvas/types';
 
 export const CountryItem = memo(({ cca2, name, flags }: CountryNodeData) => {
   const onDragStart = (event: React.DragEvent<HTMLDivElement>) => {

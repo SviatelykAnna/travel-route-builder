@@ -1,9 +1,8 @@
 import { ConnectionLineType, MarkerType } from '@xyflow/react';
 import type { NodeTypes } from '@xyflow/react';
 
-import { NODE_TYPES } from '@/graph-core/types';
-
 import CountryNode from '../nodes/Country';
+import { NODE_TYPES } from '../types';
 
 export const defaultEdgeOptions = {
   deletable: false,
@@ -19,3 +18,10 @@ export const nodeTypes: NodeTypes = {
   [NODE_TYPES.BEACH]: CountryNode,
   [NODE_TYPES.HOTEL]: CountryNode,
 };
+
+export const routeRules = `{
+  "blockedEdges": [
+    { "from": "FR", "to": "DE" },
+    { "from": "IT", "to": "ES" }
+  ]
+}`;

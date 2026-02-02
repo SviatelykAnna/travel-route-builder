@@ -1,6 +1,0 @@
-{
-  "blockedRoutes": [
-    { "from": "FR", "to": "DE" },
-    { "from": "IT", "to": "ES" }
-  ]
-}

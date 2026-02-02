@@ -1,15 +1,13 @@
-import type { GraphNode } from '../types';
+import type { BaseNode } from '../nodes/BaseNode';
 
-class BaseEdge {
+export class BaseEdge {
   id: string;
-  source: GraphNode;
-  target: GraphNode;
+  source: BaseNode;
+  target: BaseNode;
 
-  constructor({ id, source, target }: { id: string; source: GraphNode; target: GraphNode }) {
+  constructor({ id, source, target }: { id: string; source: BaseNode; target: BaseNode }) {
     this.id = id;
     this.source = source;
     this.target = target;
   }
 }
-
-export default BaseEdge;
