@@ -9,7 +9,7 @@ type CountryNode = Node<CountryNodeData, typeof NODE_TYPES.COUNTRY>;
 
 const CountryNode = ({ data }: NodeProps<CountryNode>) => {
   return (
-    <div className="flex items-center gap-2 rounded-2xl border-1 border-amber-400 bg-white px-4 py-3">
+    <div className="flex items-center gap-2 rounded-xl border border-amber-400 bg-white px-4 py-3">
       <img src={data.flags.png} alt={data.name.common} className="h-auto w-5 shrink-0" />
       <p>{data.name.common}</p>
 
