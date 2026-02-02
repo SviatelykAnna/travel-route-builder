@@ -34,8 +34,6 @@ const Canvas = () => {
     Graph.fromJSON(mockData, { edgeValidator: new EdgesValidator({ rulesJSON: routeRules }) }),
   );
 
-  console.log({ graph });
-
   const { screenToFlowPosition } = useReactFlow();
 
   const [nodes, setNodes] = useState<GraphFlowNode[]>(() => graph.getNodes() as GraphFlowNode[]);
