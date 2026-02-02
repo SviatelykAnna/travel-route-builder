@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 
+import { ErrorMessage } from '@/components/ErrorMessage';
 import { Input } from '@/components/ui/Input';
 import { Spinner } from '@/components/ui/Spinner';
 import { useDebounce } from '@/lib/hooks/useDebounce';
@@ -8,7 +9,8 @@ import { useGetAllCountries } from '@/services/rest-countries/queries';
 import { CountryItem } from './CountryItem';
 
 export const Sidebar = () => {
-  const { data, isLoading } = useGetAllCountries();
+  const { data, isLoading, isError } = useGetAllCountries();
+  console.log(isError);
 
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedSearchQuery = useDebounce(searchQuery.toLowerCase());
@@ -24,13 +26,20 @@ export const Sidebar = () => {
         <div className="flex flex-col gap-2 px-2">
           <h1 className="text-dark-grey text-lg font-medium">Countries List</h1>
           <Input
-            disabled={isLoading}
+            disabled={isLoading || isError}
             type="text"
             placeholder="Enter country name"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
+
+        {isError && (
+          <ErrorMessage
+            className="px-3"
+            message="Something went wrong while loading countries list"
+          />
+        )}
 
         {isLoading ? (
           <Spinner className="size-6 self-center text-amber-400" />
