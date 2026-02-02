@@ -16,15 +16,15 @@ export const Sidebar = () => {
   const debouncedSearchQuery = useDebounce(normalizeString(searchQuery));
 
   const filteredCountries = useMemo(
-    () => data?.filter(({ name }) => normalizeString(name.common).includes(debouncedSearchQuery)),
+    () => data?.filter(({ name }) => name.common.toLowerCase().includes(debouncedSearchQuery)),
     [data, debouncedSearchQuery],
   );
 
   return (
-    <div className="bg-light-grey border-neutral-grey h-full max-h-dvh w-90 overflow-y-scroll border-r py-4">
+    <div className="bg-primary-foreground border-muted h-full max-h-dvh w-90 overflow-y-scroll border-r py-4">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 px-2">
-          <h1 className="text-dark-grey text-lg font-medium">Countries List</h1>
+          <h1 className="text-muted-foreground text-lg font-medium">Countries List</h1>
           <Input
             disabled={isLoading || isError}
             type="text"
