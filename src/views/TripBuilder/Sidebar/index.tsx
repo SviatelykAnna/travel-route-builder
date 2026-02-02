@@ -1,15 +1,15 @@
 import { useMemo, useState } from 'react';
 
-import { ErrorMessage } from '@/components/ErrorMessage';
-import { Input } from '@/components/ui/Input';
-import { Spinner } from '@/components/ui/Spinner';
+import ErrorMessage from '@/components/ErrorMessage';
+import Input from '@/components/ui/Input';
+import Spinner from '@/components/ui/Spinner';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { normalizeString } from '@/lib/utils';
 import { useGetAllCountries } from '@/services/rest-countries/queries';
 
 import { CountryItem } from './CountryItem';
 
-export const Sidebar = () => {
+const Sidebar = () => {
   const { data, isLoading, isError } = useGetAllCountries();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -54,3 +54,5 @@ export const Sidebar = () => {
     </div>
   );
 };
+
+export default Sidebar;

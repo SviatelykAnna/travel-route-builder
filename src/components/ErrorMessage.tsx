@@ -17,3 +17,4 @@ export const ErrorMessage = ({ className, message = DEFAULT_ERROR_MESSAGE }: Err
     </div>
   );
 };
+export default ErrorMessage;

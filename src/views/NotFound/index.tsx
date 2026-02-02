@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-export const NotFound = () => (
+const NotFound = () => (
   <div className="bg-background flex min-h-dvh w-full flex-col items-center justify-center px-6">
     <p className="text-muted-foreground text-7xl font-semibold tracking-tight sm:text-8xl">404</p>
     <h1 className="text-foreground mt-4 text-xl font-medium sm:text-2xl">Page not found</h1>
@@ -17,3 +17,5 @@ export const NotFound = () => (
     </Link>
   </div>
 );
+
+export default NotFound;

@@ -26,7 +26,7 @@ import type { GraphFlowNode } from '@/graph-core/types';
 import { defaultEdgeOptions, nodeTypes } from './lib/constants';
 import mockData from './mock-data.json';
 
-export const Canvas = () => {
+const Canvas = () => {
   const [graph] = useState(new Graph(Graph.fromJSON(mockData)));
 
   const { screenToFlowPosition } = useReactFlow();
@@ -125,3 +125,5 @@ export const Canvas = () => {
     </div>
   );
 };
+
+export default Canvas;

@@ -1,9 +1,9 @@
 import { ReactFlowProvider } from '@xyflow/react';
 
-import { Canvas } from './Canvas';
-import { Sidebar } from './Sidebar';
+import Canvas from './Canvas';
+import Sidebar from './Sidebar';
 
-export const TripBuilder = () => (
+const TripBuilder = () => (
   <ReactFlowProvider>
     <div className="bg-background flex h-dvh w-full">
       <Sidebar />
@@ -11,3 +11,5 @@ export const TripBuilder = () => (
     </div>
   </ReactFlowProvider>
 );
+
+export default TripBuilder;
