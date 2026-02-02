@@ -10,7 +10,6 @@ import { CountryItem } from './CountryItem';
 
 export const Sidebar = () => {
   const { data, isLoading, isError } = useGetAllCountries();
-  console.log(isError);
 
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedSearchQuery = useDebounce(searchQuery.toLowerCase());

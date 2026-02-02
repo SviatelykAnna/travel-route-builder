@@ -1,7 +1,5 @@
 import type { Edge } from '@xyflow/react';
 
-import { toast } from 'sonner';
-
 import { GraphJSONSchema, type GraphNodeJSON } from './graphSchema';
 import { CountryNode } from './nodes/CountryNode';
 import { HotelNode } from './nodes/HotelNode';
@@ -23,7 +21,7 @@ export class Graph {
 
   static fromJSON(data: unknown) {
     const validatedGraphData = GraphJSONSchema.parse(data);
-    const { nodes: nodesData, edges: edgesData } = validatedGraphData;
+    const { nodes: nodesData, adjacencyList: adjacencyListData } = validatedGraphData;
 
     const nodes = new Map<string, GraphNode>();
 
@@ -39,7 +37,7 @@ export class Graph {
 
     const adjacencyList = new Map<string, Set<string>>();
 
-    for (const { source, targets } of edgesData) {
+    for (const [source, targets] of Object.entries(adjacencyListData)) {
       adjacencyList.set(source, new Set(targets));
     }
 
@@ -54,10 +52,12 @@ export class Graph {
         position: n.position,
         data: n.data,
       })),
-      adjacencyList: Array.from(this.adjacencyList.entries()).map(([source, targets]) => ({
-        source,
-        targets: Array.from(targets),
-      })),
+      adjacencyList: Object.fromEntries(
+        Array.from(this.adjacencyList.entries()).map(([source, targets]) => [
+          source,
+          Array.from(targets),
+        ]),
+      ),
     });
   }
 
@@ -93,8 +93,7 @@ export class Graph {
 
   addEdge(source: string, target: string) {
     if (source === target) {
-      toast.error('Source and target cannot be the same');
-      throw new Error('Source and target cannot be the same');
+      throw new Error('You can’t connect a country to itself.');
     }
 
     if (!source || !target) {
@@ -102,7 +101,7 @@ export class Graph {
     }
 
     if (this._checkConnectionHasCycle({ source, target })) {
-      throw new Error('Connection would create a cycle');
+      throw new Error('This connection would create a loop in your trip.');
     }
 
     if (this.adjacencyList.has(source)) {

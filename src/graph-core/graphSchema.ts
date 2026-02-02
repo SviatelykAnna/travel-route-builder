@@ -36,7 +36,7 @@ export const HotelNodeJSONSchema = BaseNodeJSONSchema.extend({
   data: HotelNodeDataSchema,
 });
 
-const EdgeJSONSchema = z.object({ source: z.string(), targets: z.array(z.string()) });
+const AdjacencyListJSONSchema = z.record(z.string(), z.array(z.string()));
 
 export const GraphNodeJSONSchema = z.discriminatedUnion('type', [
   CountryNodeJSONSchema,
@@ -46,7 +46,7 @@ export const GraphNodeJSONSchema = z.discriminatedUnion('type', [
 export const GraphJSONSchema = z.object({
   version: z.number(),
   nodes: z.array(GraphNodeJSONSchema),
-  edges: z.array(EdgeJSONSchema),
+  adjacencyList: AdjacencyListJSONSchema,
 });
 
 export type XYPosition = z.infer<typeof XYPositionSchema>;
@@ -54,5 +54,5 @@ export type CountryNodeData = z.infer<typeof CountryNodeDataSchema>;
 export type HotelNodeData = z.infer<typeof HotelNodeDataSchema>;
 
 export type GraphNodeJSON = z.infer<typeof GraphNodeJSONSchema>;
-export type EdgeGroupJSON = z.infer<typeof EdgeJSONSchema>;
+export type AdjacencyListJSON = z.infer<typeof AdjacencyListJSONSchema>;
 export type GraphJSON = z.infer<typeof GraphJSONSchema>;

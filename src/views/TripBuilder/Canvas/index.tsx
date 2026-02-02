@@ -17,6 +17,8 @@ import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/style.css';
 import { useCallback, useState } from 'react';
 
+import { toast } from 'sonner';
+
 import { Graph } from '@/graph-core/Graph';
 import { GraphNodeJSONSchema } from '@/graph-core/graphSchema';
 import type { GraphFlowNode } from '@/graph-core/types';
@@ -96,7 +98,7 @@ export const Canvas = () => {
           { id: `${params.source}-${params.target}`, source: params.source, target: params.target },
         ]);
       } catch (error) {
-        console.error(error);
+        toast.error((error as Error).message);
       }
     },
     [graph],

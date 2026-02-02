@@ -36,14 +36,8 @@
       }
     }
   ],
-  "edges": [
-    {
-      "source": "DE",
-      "targets": ["FR"]
-    },
-    {
-      "source": "FR",
-      "targets": []
-    }
-  ]
+  "adjacencyList": {
+    "DE": ["FR"],
+    "FR": []
+  }
 }
