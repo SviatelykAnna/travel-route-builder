@@ -1,3 +1,4 @@
+import { ArrowLeftIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const NotFound = () => (
@@ -9,8 +10,9 @@ export const NotFound = () => (
     </p>
     <Link
       to="/"
-      className="bg-primary text-primary-foreground mt-8 rounded-lg px-5 py-2.5 text-sm font-medium transition-opacity hover:opacity-90"
+      className="bg-primary text-primary-foreground mt-8 flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition-opacity hover:opacity-90"
     >
+      <ArrowLeftIcon className="size-4" />
       Back to Trip Builder
     </Link>
   </div>
