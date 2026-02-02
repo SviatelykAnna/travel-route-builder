@@ -14,14 +14,13 @@ import type {
   OnNodesChange,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import '@xyflow/react/dist/style.css';
 import { DownloadIcon } from 'lucide-react';
 import { useCallback, useState } from 'react';
 
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-import Button from '@/components/ui/button';
+import Button from '@/components/ui/ButtonCore';
 import type { GraphEdge } from '@/graph-core';
 import { EdgesValidator } from '@/graph-core/EdgesValidator';
 import { Graph } from '@/graph-core/Graph';
