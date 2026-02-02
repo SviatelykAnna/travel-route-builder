@@ -1,5 +1,4 @@
 {
-  "version": 1,
   "nodes": [
     {
       "id": "DE",
@@ -11,10 +10,7 @@
           "svg": "https://flagcdn.com/de.svg",
           "alt": "The flag of Germany is composed of three equal horizontal bands of black, red and gold."
         },
-        "name": {
-          "common": "Germany",
-          "official": "Federal Republic of Germany"
-        },
+        "name": { "common": "Germany", "official": "Federal Republic of Germany" },
         "cca2": "DE"
       }
     },
@@ -28,16 +24,86 @@
           "svg": "https://flagcdn.com/fr.svg",
           "alt": "The flag of France is composed of three equal vertical bands of blue, white and red."
         },
-        "name": {
-          "common": "France",
-          "official": "French Republic"
-        },
+        "name": { "common": "France", "official": "French Republic" },
         "cca2": "FR"
+      }
+    },
+    {
+      "id": "UA",
+      "type": "country",
+      "position": { "x": 516.2564006024096, "y": 51.10843373493976 },
+      "data": {
+        "cca2": "UA",
+        "flags": {
+          "png": "https://flagcdn.com/w320/ua.png",
+          "svg": "https://flagcdn.com/ua.svg",
+          "alt": "The flag of Ukraine is composed of two equal horizontal bands of blue and yellow."
+        },
+        "name": { "common": "Ukraine", "official": "Ukraine" }
+      }
+    },
+    {
+      "id": "AZ",
+      "type": "country",
+      "position": { "x": 523.8467620481928, "y": 148.26506024096386 },
+      "data": {
+        "cca2": "AZ",
+        "flags": {
+          "png": "https://flagcdn.com/w320/az.png",
+          "svg": "https://flagcdn.com/az.svg",
+          "alt": "The flag of Azerbaijan features three equal horizontal bands of blue, red and green, with a white fly-side facing crescent and eight-pointed star centered in the red band."
+        },
+        "name": { "common": "Azerbaijan", "official": "Republic of Azerbaijan" }
+      }
+    },
+    {
+      "id": "IE",
+      "type": "country",
+      "position": { "x": 541.0124996937692, "y": -21.920664096381064 },
+      "data": {
+        "cca2": "IE",
+        "flags": {
+          "png": "https://flagcdn.com/w320/ie.png",
+          "svg": "https://flagcdn.com/ie.svg",
+          "alt": "The flag of Ireland is composed of three equal vertical bands of green, white and orange."
+        },
+        "name": { "common": "Ireland", "official": "Republic of Ireland" }
+      }
+    },
+    {
+      "id": "BB",
+      "type": "country",
+      "position": { "x": 903.5177193803364, "y": 16.84149203331643 },
+      "data": {
+        "cca2": "BB",
+        "flags": {
+          "png": "https://flagcdn.com/w320/bb.png",
+          "svg": "https://flagcdn.com/bb.svg",
+          "alt": "The flag of Barbados is composed of three equal vertical bands of ultramarine, gold and ultramarine. The head of a black trident is centered in the gold band."
+        },
+        "name": { "common": "Barbados", "official": "Barbados" }
+      }
+    },
+    {
+      "id": "SJ",
+      "type": "country",
+      "position": { "x": 895.7208532471693, "y": -154.75180213610082 },
+      "data": {
+        "cca2": "SJ",
+        "flags": {
+          "png": "https://flagcdn.com/w320/sj.png",
+          "svg": "https://flagcdn.com/sj.svg",
+          "alt": ""
+        },
+        "name": { "common": "Svalbard and Jan Mayen", "official": "Svalbard og Jan Mayen" }
       }
     }
   ],
   "adjacencyList": {
     "DE": ["FR"],
-    "FR": []
+    "FR": ["IE", "UA", "AZ"],
+    "AZ": ["BB"],
+    "UA": ["BB"],
+    "IE": ["SJ"]
   }
 }

@@ -15,14 +15,17 @@ import type {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/style.css';
+import { DownloadIcon } from 'lucide-react';
 import { useCallback, useState } from 'react';
 
 import { toast } from 'sonner';
 import { z } from 'zod';
 
+import Button from '@/components/ui/button';
 import type { GraphEdge } from '@/graph-core';
 import { EdgesValidator } from '@/graph-core/EdgesValidator';
 import { Graph } from '@/graph-core/Graph';
+import { downloadJSON } from '@/lib/utils';
 
 import { defaultEdgeOptions, nodeTypes, routeRules } from './lib/constants';
 import { GraphNodeJSONSchema } from './lib/tripBuilderSchema';
@@ -38,6 +41,11 @@ const Canvas = () => {
 
   const [nodes, setNodes] = useState<GraphFlowNode[]>(() => graph.getNodes() as GraphFlowNode[]);
   const [edges, setEdges] = useState(() => graph.getEdges());
+
+  const syncFromGraph = useCallback(() => {
+    setNodes(graph.getNodes() as GraphFlowNode[]);
+    setEdges(graph.getEdges());
+  }, [graph]);
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes: NodeChange[]) => {
@@ -88,8 +96,7 @@ const Canvas = () => {
         const validatedNode = GraphNodeJSONSchema.parse({ ...parsedData, position });
 
         graph.addNode(validatedNode);
-
-        setNodes((prevState) => [...prevState, validatedNode]);
+        syncFromGraph();
       } catch (error) {
         if (error instanceof z.ZodError) {
           toast.error('Invalid node data');
@@ -99,27 +106,19 @@ const Canvas = () => {
         }
       }
     },
-    [graph, screenToFlowPosition],
+    [graph, screenToFlowPosition, syncFromGraph],
   );
 
   const onConnect = useCallback(
     (params: Connection) => {
       try {
         graph.addEdge(params.source, params.target);
-
-        setEdges((prevState) => [
-          ...prevState,
-          {
-            id: `${params.source}->${params.target}`,
-            source: params.source,
-            target: params.target,
-          },
-        ]);
+        syncFromGraph();
       } catch (error) {
         toast.error((error as Error).message);
       }
     },
-    [graph],
+    [graph, syncFromGraph],
   );
 
   const onNodesDelete = useCallback(
@@ -127,8 +126,10 @@ const Canvas = () => {
       for (const { id } of deleted) {
         graph.removeNode(id);
       }
+
+      syncFromGraph();
     },
-    [graph],
+    [graph, syncFromGraph],
   );
 
   const onEdgesDelete = useCallback(
@@ -136,12 +137,23 @@ const Canvas = () => {
       for (const { source, target } of deleted) {
         graph.removeEdge(source, target);
       }
+
+      syncFromGraph();
+    },
+    [graph, syncFromGraph],
+  );
+
+  const handleExport = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      downloadJSON('trip-graph.json', graph.toJSON());
+      toast.success('Graph exported');
     },
     [graph],
   );
 
   return (
-    <div className="h-full w-full">
+    <div className="relative h-full w-full">
       <ReactFlow
         onConnect={onConnect}
         defaultEdgeOptions={defaultEdgeOptions}
@@ -159,6 +171,11 @@ const Canvas = () => {
       >
         <Background bgColor="var(--react-flow-bg)" />
         <Controls />
+
+        <Button className="absolute top-4 right-4 z-10 flex gap-2" onClick={handleExport}>
+          <DownloadIcon />
+          Export JSON
+        </Button>
       </ReactFlow>
     </div>
   );
