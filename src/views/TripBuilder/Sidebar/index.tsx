@@ -4,6 +4,7 @@ import { ErrorMessage } from '@/components/ErrorMessage';
 import { Input } from '@/components/ui/Input';
 import { Spinner } from '@/components/ui/Spinner';
 import { useDebounce } from '@/lib/hooks/useDebounce';
+import { normalizeString } from '@/lib/utils';
 import { useGetAllCountries } from '@/services/rest-countries/queries';
 
 import { CountryItem } from './CountryItem';
@@ -12,10 +13,10 @@ export const Sidebar = () => {
   const { data, isLoading, isError } = useGetAllCountries();
 
   const [searchQuery, setSearchQuery] = useState('');
-  const debouncedSearchQuery = useDebounce(searchQuery.toLowerCase());
+  const debouncedSearchQuery = useDebounce(normalizeString(searchQuery));
 
   const filteredCountries = useMemo(
-    () => data?.filter(({ name }) => name.common.toLowerCase().includes(debouncedSearchQuery)),
+    () => data?.filter(({ name }) => normalizeString(name.common).includes(debouncedSearchQuery)),
     [data, debouncedSearchQuery],
   );
 
