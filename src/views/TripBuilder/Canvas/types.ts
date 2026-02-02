@@ -1,6 +1,6 @@
 import type { Node } from '@xyflow/react';
 
-import type { CountryNodeData, HotelNodeData } from './lib/graphSchema';
+import type { CountryNodeData, HotelNodeData } from './lib/tripBuilderSchema';
 import type CountryNode from './nodes/Country';
 
 export const NODE_TYPES = {

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import type { CountryNodeData } from '../Canvas/lib/graphSchema';
+import type { CountryNodeData } from '../Canvas/lib/tripBuilderSchema';
 import { NODE_TYPES } from '../Canvas/types';
 
 export const CountryItem = memo(({ cca2, name, flags }: CountryNodeData) => {

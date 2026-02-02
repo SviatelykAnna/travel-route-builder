@@ -20,10 +20,12 @@ import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
+import type { GraphEdge } from '@/graph-core';
 import { EdgesValidator } from '@/graph-core/EdgesValidator';
 import { Graph } from '@/graph-core/Graph';
 
 import { defaultEdgeOptions, nodeTypes, routeRules } from './lib/constants';
+import { GraphNodeJSONSchema } from './lib/tripBuilderSchema';
 import mockData from './mock-data.json';
 import type { GraphFlowNode } from './types';
 
@@ -31,6 +33,8 @@ const Canvas = () => {
   const [graph] = useState(() =>
     Graph.fromJSON(mockData, { edgeValidator: new EdgesValidator({ rulesJSON: routeRules }) }),
   );
+
+  console.log({ graph });
 
   const { screenToFlowPosition } = useReactFlow();
 
@@ -83,19 +87,17 @@ const Canvas = () => {
       });
 
       try {
-        const node = { ...parsedData, position };
-        graph.addNode({
-          ...parsedData,
-          position,
-        });
+        const validatedNode = GraphNodeJSONSchema.parse({ ...parsedData, position });
 
-        setNodes((prevState) => [...prevState, node]);
+        graph.addNode(validatedNode);
+
+        setNodes((prevState) => [...prevState, validatedNode]);
       } catch (error) {
-        console.error(error);
-
         if (error instanceof z.ZodError) {
           toast.error('Invalid node data');
           return;
+        } else {
+          toast.error((error as Error).message);
         }
       }
     },
@@ -122,6 +124,24 @@ const Canvas = () => {
     [graph],
   );
 
+  const onNodesDelete = useCallback(
+    (deleted: GraphFlowNode[]) => {
+      for (const { id } of deleted) {
+        graph.removeNode(id);
+      }
+    },
+    [graph],
+  );
+
+  const onEdgesDelete = useCallback(
+    (deleted: GraphEdge[]) => {
+      for (const { source, target } of deleted) {
+        graph.removeEdge(source, target);
+      }
+    },
+    [graph],
+  );
+
   return (
     <div className="h-full w-full">
       <ReactFlow
@@ -132,9 +152,11 @@ const Canvas = () => {
         nodeTypes={nodeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onNodesDelete={onNodesDelete}
         fitView
         onDragOver={onDragOver}
         onDrop={onDrop}
+        onEdgesDelete={onEdgesDelete}
         fitViewOptions={{ padding: 0.5 }}
       >
         <Background bgColor="var(--react-flow-bg)" />

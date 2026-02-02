@@ -2,7 +2,7 @@ import { Handle, Position } from '@xyflow/react';
 import type { Node, NodeProps } from '@xyflow/react';
 import { memo } from 'react';
 
-import type { CountryNodeData } from '../lib/graphSchema';
+import type { CountryNodeData } from '../lib/tripBuilderSchema';
 import type { NODE_TYPES } from '../types';
 
 export type CountryNode = Node<CountryNodeData, typeof NODE_TYPES.COUNTRY>;

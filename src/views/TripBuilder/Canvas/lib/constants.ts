@@ -5,11 +5,8 @@ import CountryNode from '../nodes/Country';
 import { NODE_TYPES } from '../types';
 
 export const defaultEdgeOptions = {
-  deletable: false,
-  focusable: false,
   markerEnd: { type: MarkerType.Arrow },
   pathOptions: { offset: 5 },
-  selectable: false,
   type: ConnectionLineType.Bezier,
 };
 

@@ -65,11 +65,16 @@ export class Graph {
     if (!node) {
       throw new Error(`Node with id ${id} not found`);
     }
+
     return node;
   }
 
   addNode(node: unknown): void {
     const validated = NodeJSONSchema.parse(node);
+    if (this.nodes.has(validated.id)) {
+      throw new Error(`Node with id ${validated.id} already exists`);
+    }
+
     this.nodes.set(
       validated.id,
       new BaseNode({
@@ -79,6 +84,19 @@ export class Graph {
         data: validated.data as Record<string, unknown>,
       }),
     );
+  }
+
+  removeNode(nodeId: string): void {
+    this.getNode(nodeId);
+
+    this.nodes.delete(nodeId);
+    this.adjacencyList.delete(nodeId);
+
+    for (const [, targets] of this.adjacencyList) {
+      if (targets.has(nodeId)) {
+        targets.delete(nodeId);
+      }
+    }
   }
 
   addEdge(source: string, target: string): void {
@@ -111,6 +129,13 @@ export class Graph {
       }
     }
     return edges;
+  }
+
+  removeEdge(source: string, target: string): void {
+    const targets = this.adjacencyList.get(source);
+    if (targets) {
+      targets.delete(target);
+    }
   }
 
   getNodes(): GraphNode[] {
