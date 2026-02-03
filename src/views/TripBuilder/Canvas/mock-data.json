@@ -97,6 +97,20 @@
         },
         "name": { "common": "Svalbard and Jan Mayen", "official": "Svalbard og Jan Mayen" }
       }
+    },
+    {
+      "id": "RS",
+      "type": "country",
+      "position": { "x": 1217.7145747142208, "y": -296.18939233341564 },
+      "data": {
+        "cca2": "RS",
+        "flags": {
+          "png": "https://flagcdn.com/w320/rs.png",
+          "svg": "https://flagcdn.com/rs.svg",
+          "alt": "The flag of Serbia is composed of three equal horizontal bands of red, blue and white. The coat of arms of Serbia is superimposed at the center of the field slightly towards the hoist side."
+        },
+        "name": { "common": "Serbia", "official": "Republic of Serbia" }
+      }
     }
   ],
   "adjacencyList": {
@@ -104,6 +118,7 @@
     "FR": ["IE", "UA", "AZ"],
     "AZ": ["BB"],
     "UA": ["BB"],
-    "IE": ["SJ"]
+    "IE": ["SJ"],
+    "SJ": ["RS"]
   }
 }

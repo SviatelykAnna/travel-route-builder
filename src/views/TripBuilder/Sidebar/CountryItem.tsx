@@ -24,7 +24,7 @@ export const CountryItem = memo(({ cca2, name, flags }: CountryNodeData) => {
     <div
       onDragStart={onDragStart}
       draggable
-      className="flex cursor-grab items-center gap-2 p-3 transition-colors hover:bg-amber-400/10"
+      className="flex cursor-grab items-center gap-2 px-4 py-3 transition-colors hover:bg-amber-400/10"
     >
       <img draggable="false" src={flags.png} alt={name.common} className="h-auto w-5 shrink-0" />
       <p className="text-sm">{name.common}</p>

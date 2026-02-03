@@ -56,7 +56,7 @@ const Canvas = () => {
         if (isPositionChange) {
           for (const change of changes) {
             if (change.type === 'position' && change.dragging === false) {
-              graph.getNode(change.id).setPosition(change.position!);
+              graph.getNode(change.id)?.setPosition(change.position!);
             }
           }
         }

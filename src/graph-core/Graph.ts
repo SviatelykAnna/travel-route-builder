@@ -8,14 +8,14 @@ export class Graph {
   adjacencyList: Map<string, Set<string>>;
   private edgeValidator: EdgesValidator | undefined;
 
-  constructor(args?: {
+  constructor(params?: {
     nodes?: Map<string, BaseNode>;
     adjacencyList?: Map<string, Set<string>>;
     edgeValidator?: EdgesValidator;
   }) {
-    this.nodes = args?.nodes ?? new Map();
-    this.adjacencyList = args?.adjacencyList ?? new Map();
-    this.edgeValidator = args?.edgeValidator;
+    this.nodes = params?.nodes ?? new Map();
+    this.adjacencyList = params?.adjacencyList ?? new Map();
+    this.edgeValidator = params?.edgeValidator;
   }
 
   static fromJSON(data: unknown, options?: { edgeValidator?: EdgesValidator }): Graph {
@@ -60,13 +60,8 @@ export class Graph {
     });
   }
 
-  getNode(id: string): BaseNode {
-    const node = this.nodes.get(id);
-    if (!node) {
-      throw new Error(`Node with id ${id} not found`);
-    }
-
-    return node;
+  getNode(id: string) {
+    return this.nodes.get(id);
   }
 
   addNode(node: unknown): void {
@@ -87,8 +82,6 @@ export class Graph {
   }
 
   removeNode(nodeId: string): void {
-    this.getNode(nodeId);
-
     this.nodes.delete(nodeId);
     this.adjacencyList.delete(nodeId);
 
@@ -152,7 +145,8 @@ export class Graph {
     const queue: string[] = [target];
 
     while (queue.length > 0) {
-      const current = queue.shift()!;
+      const current = queue.shift();
+      if (!current) continue;
       const targets = this.adjacencyList.get(current);
       if (!targets) continue;
       for (const t of targets) {
