@@ -27,6 +27,7 @@ import { Graph } from '@/graph-core/Graph';
 import { useTheme } from '@/lib/hooks/useTheme';
 import { downloadJSON, importJSON } from '@/lib/utils';
 
+import IntineraryDetailsBar from '../IntineraryDetailsBar';
 import { defaultEdgeOptions, nodeTypes, routeRules } from './lib/constants';
 import { GraphJSONSchema, GraphNodeJSONSchema } from './lib/tripBuilderSchema';
 import type { GraphFlowNode } from './types';
@@ -187,6 +188,7 @@ const Canvas = () => {
       >
         <Background bgColor="var(--react-flow-bg)" />
         <Controls className="bg-card border-border [--xy-controls-button-background-color-hover:var(--accent)] [--xy-controls-button-background-color:var(--card)] [--xy-controls-button-border-color:var(--border)] [--xy-controls-button-color-hover:var(--accent-foreground)]" />
+        <IntineraryDetailsBar />
 
         <div className="absolute top-4 right-4 z-10 flex gap-2">
           <Button className="flex gap-2" onClick={handleImport}>
