@@ -13,8 +13,8 @@ const CountryNode = ({ data, ...props }: NodeProps<CountryNodeType>) => {
   return (
     <div
       className={cn(
-        'flex items-center gap-2 rounded-xl border border-amber-400 bg-white px-4 py-3 transition-colors',
-        !props.dragging && 'hover:bg-indigo-400/10',
+        'bg-card text-card-foreground flex items-center gap-2 rounded-xl border border-amber-400 px-4 py-3 transition-colors',
+        !props.dragging && 'hover:bg-accent',
         {
           'ring-2 ring-indigo-400': props.selected && !props.dragging,
           'border-dashed': props.dragging,
@@ -27,12 +27,12 @@ const CountryNode = ({ data, ...props }: NodeProps<CountryNodeType>) => {
       <Handle
         position={Position.Left}
         type="target"
-        className="-left-1! h-2! w-2! rounded-full! border-2! border-white! bg-amber-400! ring-1! ring-amber-400!"
+        className="border-card! -left-1! h-2! w-2! rounded-full! border-2! bg-amber-400! ring-1! ring-amber-400!"
       />
       <Handle
         position={Position.Right}
         type="source"
-        className="-right-1! h-2! w-2! rounded-full! border-2! border-white! bg-amber-400! ring-1! ring-amber-400!"
+        className="border-card! -right-1! h-2! w-2! rounded-full! border-2! bg-amber-400! ring-1! ring-amber-400!"
       />
     </div>
   );

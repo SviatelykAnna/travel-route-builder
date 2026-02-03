@@ -162,3 +162,13 @@
     scrollbar-color: var(--muted-foreground) var(--muted);
   }
 }
+
+.react-flow__controls {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+.react-flow__controls-button {
+  background: var(--card);
+  border-color: var(--border);
+}
