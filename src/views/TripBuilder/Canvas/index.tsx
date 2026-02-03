@@ -14,7 +14,7 @@ import type {
   OnNodesChange,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { DownloadIcon, UploadIcon } from 'lucide-react';
+import { DownloadIcon, Moon, Sun, UploadIcon } from 'lucide-react';
 import { useCallback, useState } from 'react';
 
 import { toast } from 'sonner';
@@ -24,6 +24,7 @@ import Button from '@/components/ui/Button';
 import type { GraphEdge } from '@/graph-core';
 import { EdgesValidator } from '@/graph-core/EdgesValidator';
 import { Graph } from '@/graph-core/Graph';
+import { useTheme } from '@/lib/hooks/useTheme';
 import { downloadJSON, importJSON } from '@/lib/utils';
 
 import { defaultEdgeOptions, nodeTypes, routeRules } from './lib/constants';
@@ -31,6 +32,8 @@ import { GraphJSONSchema, GraphNodeJSONSchema } from './lib/tripBuilderSchema';
 import type { GraphFlowNode } from './types';
 
 const Canvas = () => {
+  const { isDark, toggle } = useTheme();
+
   const [graph, setGraph] = useState(
     () => new Graph({ edgeValidator: new EdgesValidator({ rulesJSON: routeRules }) }),
   );
@@ -183,9 +186,13 @@ const Canvas = () => {
         fitViewOptions={{ padding: 0.5 }}
       >
         <Background bgColor="var(--react-flow-bg)" />
-        <Controls />
+        <Controls className="bg-card border-border [--xy-controls-button-background-color-hover:var(--accent)] [--xy-controls-button-background-color:var(--card)] [--xy-controls-button-border-color:var(--border)] [--xy-controls-button-color-hover:var(--accent-foreground)]" />
 
         <div className="absolute top-4 right-4 z-10 flex gap-2">
+          <Button size="icon" onClick={toggle} aria-label="Toggle theme">
+            {isDark ? <Sun /> : <Moon />}
+          </Button>
+
           <Button className="flex gap-2" onClick={handleImport}>
             <UploadIcon />
             Import

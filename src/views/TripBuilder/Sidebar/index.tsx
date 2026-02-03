@@ -1,12 +1,9 @@
-import { Moon, Sun } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 import AlertCard from '@/components/AlertCard';
-import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import Spinner from '@/components/ui/Spinner';
 import { useDebounce } from '@/lib/hooks/useDebounce';
-import { useTheme } from '@/lib/hooks/useTheme';
 import { normalizeString } from '@/lib/utils';
 import { useGetAllCountries } from '@/services/rest-countries/queries';
 
@@ -14,7 +11,6 @@ import { CountryItem } from './CountryItem';
 
 const Sidebar = () => {
   const { data, isLoading, isError } = useGetAllCountries();
-  const { isDark, toggle } = useTheme();
 
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedSearchQuery = useDebounce(normalizeString(searchQuery));
@@ -61,13 +57,7 @@ const Sidebar = () => {
   return (
     <div className="bg-primary-foreground border-muted flex max-h-dvh w-90 flex-col border-r">
       <div className="flex flex-col gap-2 px-4 py-4">
-        <div className="flex items-center justify-between">
-          <h1 className="text-muted-foreground text-lg font-medium">Countries List</h1>
-
-          <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
-            {isDark ? <Sun className="size-5" /> : <Moon className="size-5" />}
-          </Button>
-        </div>
+        <h1 className="text-muted-foreground text-lg font-medium">Countries List</h1>
 
         <Input
           disabled={isLoading || isError}
