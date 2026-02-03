@@ -189,10 +189,6 @@ const Canvas = () => {
         <Controls className="bg-card border-border [--xy-controls-button-background-color-hover:var(--accent)] [--xy-controls-button-background-color:var(--card)] [--xy-controls-button-border-color:var(--border)] [--xy-controls-button-color-hover:var(--accent-foreground)]" />
 
         <div className="absolute top-4 right-4 z-10 flex gap-2">
-          <Button size="icon" onClick={toggle} aria-label="Toggle theme">
-            {isDark ? <Sun /> : <Moon />}
-          </Button>
-
           <Button className="flex gap-2" onClick={handleImport}>
             <UploadIcon />
             Import
@@ -201,6 +197,10 @@ const Canvas = () => {
           <Button className="flex gap-2" onClick={handleExport}>
             <DownloadIcon />
             Export
+          </Button>
+
+          <Button className="ml-3" size="icon" onClick={toggle} aria-label="Toggle theme">
+            {isDark ? <Sun /> : <Moon />}
           </Button>
         </div>
       </ReactFlow>
