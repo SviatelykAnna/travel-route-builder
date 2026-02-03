@@ -67,7 +67,9 @@ const Sidebar = () => {
         />
       </div>
 
-      <div className="flex max-h-full flex-1 flex-col gap-6 overflow-y-scroll">{content}</div>
+      <div className="custom-scrollbar flex max-h-full flex-1 flex-col gap-6 overflow-y-auto">
+        {content}
+      </div>
     </div>
   );
 };
