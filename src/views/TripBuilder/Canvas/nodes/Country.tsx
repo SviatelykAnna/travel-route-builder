@@ -13,7 +13,8 @@ const CountryNode = ({ data, ...props }: NodeProps<CountryNodeType>) => {
   return (
     <div
       className={cn(
-        'flex items-center gap-2 rounded-xl border border-amber-400 bg-white px-4 py-3 transition-colors hover:bg-indigo-400/10',
+        'flex items-center gap-2 rounded-xl border border-amber-400 bg-white px-4 py-3 transition-colors',
+        !props.dragging && 'hover:bg-indigo-400/10',
         {
           'ring-2 ring-indigo-400': props.selected && !props.dragging,
           'border-dashed': props.dragging,
