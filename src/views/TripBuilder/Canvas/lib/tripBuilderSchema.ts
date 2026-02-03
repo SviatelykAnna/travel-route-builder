@@ -44,7 +44,6 @@ export const GraphNodeJSONSchema = z.discriminatedUnion('type', [
 ]);
 
 export const GraphJSONSchema = z.object({
-  version: z.number(),
   nodes: z.array(GraphNodeJSONSchema),
   adjacencyList: AdjacencyListJSONSchema,
 });

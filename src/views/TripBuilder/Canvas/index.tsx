@@ -14,7 +14,7 @@ import type {
   OnNodesChange,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { DownloadIcon } from 'lucide-react';
+import { DownloadIcon, UploadIcon } from 'lucide-react';
 import { useCallback, useState } from 'react';
 
 import { toast } from 'sonner';
@@ -24,16 +24,15 @@ import Button from '@/components/ui/Button';
 import type { GraphEdge } from '@/graph-core';
 import { EdgesValidator } from '@/graph-core/EdgesValidator';
 import { Graph } from '@/graph-core/Graph';
-import { downloadJSON } from '@/lib/utils';
+import { downloadJSON, importJSON } from '@/lib/utils';
 
 import { defaultEdgeOptions, nodeTypes, routeRules } from './lib/constants';
-import { GraphNodeJSONSchema } from './lib/tripBuilderSchema';
-import mockData from './mock-data.json';
+import { GraphJSONSchema, GraphNodeJSONSchema } from './lib/tripBuilderSchema';
 import type { GraphFlowNode } from './types';
 
 const Canvas = () => {
-  const [graph] = useState(() =>
-    Graph.fromJSON(mockData, { edgeValidator: new EdgesValidator({ rulesJSON: routeRules }) }),
+  const [graph, setGraph] = useState(
+    () => new Graph({ edgeValidator: new EdgesValidator({ rulesJSON: routeRules }) }),
   );
 
   const { screenToFlowPosition } = useReactFlow();
@@ -142,14 +141,29 @@ const Canvas = () => {
     [graph, syncFromGraph],
   );
 
-  const handleExport = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.stopPropagation();
-      downloadJSON('trip-graph.json', graph.toJSON());
-      toast.success('Graph exported');
-    },
-    [graph],
-  );
+  const handleExport = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    downloadJSON('trip-graph.json', graph.toJSON());
+    toast.success('Graph exported');
+  };
+
+  const handleImport = async () => {
+    try {
+      const data = await importJSON();
+      const validatedTravelGraph = GraphJSONSchema.parse(data);
+
+      const newGraph = Graph.fromJSON(validatedTravelGraph, {
+        edgeValidator: new EdgesValidator({ rulesJSON: routeRules }),
+      });
+
+      setGraph(newGraph);
+      setNodes(newGraph.getNodes() as GraphFlowNode[]);
+      setEdges(newGraph.getEdges());
+      toast.success('Graph imported');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to import JSON');
+    }
+  };
 
   return (
     <div className="relative h-full w-full">
@@ -171,10 +185,17 @@ const Canvas = () => {
         <Background bgColor="var(--react-flow-bg)" />
         <Controls />
 
-        <Button className="absolute top-4 right-4 z-10 flex gap-2" onClick={handleExport}>
-          <DownloadIcon />
-          Export JSON
-        </Button>
+        <div className="absolute top-4 right-4 z-10 flex gap-2">
+          <Button className="flex gap-2" onClick={handleImport}>
+            <UploadIcon />
+            Import
+          </Button>
+
+          <Button className="flex gap-2" onClick={handleExport}>
+            <DownloadIcon />
+            Export
+          </Button>
+        </div>
       </ReactFlow>
     </div>
   );
