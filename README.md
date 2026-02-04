@@ -93,6 +93,14 @@ src/
 
 ## Usage
 
+### Quick Start with Sample Data
+
+The project includes a `mock-data.json` file with a pre-built itinerary. To load it:
+
+1. Click the **Import** button in the top-right corner of the canvas
+2. Select the `mock-data.json` file from the project root
+3. The sample itinerary will be loaded onto the canvas
+
 ### Adding Countries
 
 1. Browse the country list in the left sidebar
