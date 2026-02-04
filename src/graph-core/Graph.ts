@@ -99,7 +99,7 @@ export class Graph {
     if (!source || !target) {
       throw new Error('Source or target cannot be empty');
     }
-    if (this.edgeValidator?.isRouteBlocked(source, target)) {
+    if (this.edgeValidator?.isConnectionBlocked(source, target)) {
       throw new Error('This route is not allowed.');
     }
     if (this._wouldCreateCycle(source, target)) {

@@ -3,7 +3,7 @@
     {
       "id": "760d46b6-a3f7-4c3b-bd7b-b53fe1ad16c1",
       "type": "landmark",
-      "position": { "x": 975.1202398100096, "y": 414.68992303299757 },
+      "position": { "x": 725.036966830919, "y": 206.77185305619554 },
       "data": {
         "name": "The Great Barrier Reef",
         "description": "A must-see spot for photos you’ll post later.",
@@ -11,20 +11,9 @@
       }
     },
     {
-      "id": "0caf6c99-eb09-4d39-ab53-fbecf6c76ee3",
-      "type": "hotel",
-      "position": { "x": 462.8957855230755, "y": 346.86604083991995 },
-      "data": {
-        "name": "Some boutique hotel",
-        "description": "Where your suitcase rests and Wi-Fi passwords are hunted.",
-        "nights": 3,
-        "notes": ["Late check-in", "Early coffee."]
-      }
-    },
-    {
       "id": "c5754cb3-24b6-4b08-96c3-7fac58b40792",
       "type": "restaurant",
-      "position": { "x": 414.7525676757751, "y": 563.6973642502069 },
+      "position": { "x": 948.0356889294542, "y": -429.890955018854 },
       "data": {
         "name": "The Fish Shop",
         "description": "The reason the trip budget quietly disappears.",
@@ -71,10 +60,82 @@
         },
         "name": { "common": "Germany", "official": "Federal Republic of Germany" }
       }
+    },
+    {
+      "id": "UA",
+      "type": "country",
+      "position": { "x": 810.3432436656931, "y": -89.27952628932758 },
+      "data": {
+        "cca2": "UA",
+        "flags": {
+          "png": "https://flagcdn.com/w320/ua.png",
+          "svg": "https://flagcdn.com/ua.svg",
+          "alt": "The flag of Ukraine is composed of two equal horizontal bands of blue and yellow."
+        },
+        "name": { "common": "Ukraine", "official": "Ukraine" }
+      }
+    },
+    {
+      "id": "IE",
+      "type": "country",
+      "position": { "x": 819.6866890282244, "y": 51.689444036109876 },
+      "data": {
+        "cca2": "IE",
+        "flags": {
+          "png": "https://flagcdn.com/w320/ie.png",
+          "svg": "https://flagcdn.com/ie.svg",
+          "alt": "The flag of Ireland is composed of three equal vertical bands of green, white and orange."
+        },
+        "name": { "common": "Ireland", "official": "Republic of Ireland" }
+      }
+    },
+    {
+      "id": "PL",
+      "type": "country",
+      "position": { "x": 1129.0353953571398, "y": -208.67606619797422 },
+      "data": {
+        "cca2": "PL",
+        "flags": {
+          "png": "https://flagcdn.com/w320/pl.png",
+          "svg": "https://flagcdn.com/pl.svg",
+          "alt": "The flag of Poland is composed of two equal horizontal bands of white and red."
+        },
+        "name": { "common": "Poland", "official": "Republic of Poland" }
+      }
+    },
+    {
+      "id": "PT",
+      "type": "country",
+      "position": { "x": 1149.1637672137285, "y": 113.38823058564363 },
+      "data": {
+        "cca2": "PT",
+        "flags": {
+          "png": "https://flagcdn.com/w320/pt.png",
+          "svg": "https://flagcdn.com/pt.svg",
+          "alt": "The flag of Portugal is composed of two vertical bands of green and red in the ratio of 2:3, with the coat of arms of Portugal centered over the two-color boundary."
+        },
+        "name": { "common": "Portugal", "official": "Portuguese Republic" }
+      }
+    },
+    {
+      "id": "CZ",
+      "type": "country",
+      "position": { "x": 1132.7974674560621, "y": -17.514458195787757 },
+      "data": {
+        "cca2": "CZ",
+        "flags": {
+          "png": "https://flagcdn.com/w320/cz.png",
+          "svg": "https://flagcdn.com/cz.svg",
+          "alt": "The flag of Czechia is composed of two equal horizontal bands of white and red, with a blue isosceles triangle superimposed on the hoist side of the field. The triangle has its base on the hoist end and spans about two-fifth the width of the field."
+        },
+        "name": { "common": "Czechia", "official": "Czech Republic" }
+      }
     }
   ],
   "adjacencyList": {
-    "GB": ["0caf6c99-eb09-4d39-ab53-fbecf6c76ee3", "d0e3cb65-c5a9-40e3-91ee-20bc8ec51f8f", "DE"],
-    "DE": ["760d46b6-a3f7-4c3b-bd7b-b53fe1ad16c1"]
+    "GB": ["d0e3cb65-c5a9-40e3-91ee-20bc8ec51f8f", "DE"],
+    "DE": ["760d46b6-a3f7-4c3b-bd7b-b53fe1ad16c1", "UA", "IE"],
+    "UA": ["c5754cb3-24b6-4b08-96c3-7fac58b40792", "PL", "CZ"],
+    "IE": ["PT"]
   }
 }

@@ -18,7 +18,7 @@ export class EdgesValidator {
     }
   }
 
-  isRouteBlocked(source: string, target: string): boolean {
+  isConnectionBlocked(source: string, target: string): boolean {
     return this.blockedEdges.some((rule) => n(rule.from) === n(source) && n(rule.to) === n(target));
   }
 }
