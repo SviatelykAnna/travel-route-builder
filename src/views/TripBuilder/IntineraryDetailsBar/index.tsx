@@ -1,51 +1,34 @@
-import { Camera, Hotel, Palmtree, ShoppingBag, Utensils } from 'lucide-react';
+import { v4 as uuidv4 } from 'uuid';
 
-const itineraryItems = [
-  {
-    type: 'hotel',
-    label: 'Hotel',
-    icon: Hotel,
-    color: 'text-violet-500',
-    border: 'border-b-violet-500',
-  },
-  {
-    type: 'beach',
-    label: 'Beach',
-    icon: Palmtree,
-    color: 'text-cyan-500',
-    border: 'border-b-cyan-500',
-  },
-  {
-    type: 'attraction',
-    label: 'Attraction',
-    icon: Camera,
-    color: 'text-rose-500',
-    border: 'border-b-rose-500',
-  },
-  {
-    type: 'restaurant',
-    label: 'Restaurant',
-    icon: Utensils,
-    color: 'text-orange-500',
-    border: 'border-b-orange-500',
-  },
-  {
-    type: 'shopping',
-    label: 'Shopping',
-    icon: ShoppingBag,
-    color: 'text-pink-500',
-    border: 'border-b-pink-500',
-  },
-];
+import { type GraphNodeData, type NodeType } from '../Canvas/types';
+import { itineraryItems } from './constants';
 
 const IntineraryDetailsBar = () => {
+  const onDragStart = (
+    event: React.DragEvent<HTMLDivElement>,
+    type: NodeType,
+    data: GraphNodeData,
+  ) => {
+    event.dataTransfer.setData(
+      'application/json',
+      JSON.stringify({
+        type,
+        id: uuidv4(),
+        data: {
+          ...data,
+        },
+      }),
+    );
+    event.dataTransfer.effectAllowed = 'move';
+  };
   return (
     <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2">
       <div className="bg-card border-border flex items-center gap-1 rounded-xl border px-3 py-2 shadow-lg">
         <span className="text-muted-foreground mr-2 text-xs font-medium">Add to itinerary:</span>
 
-        {itineraryItems.map(({ type, label, icon: Icon, color, border }) => (
+        {itineraryItems.map(({ type, label, icon: Icon, color, border, data }) => (
           <div
+            onDragStart={(event) => onDragStart(event, type, data)}
             key={type}
             draggable
             className={`bg-card hover:bg-accent flex cursor-grab items-center gap-2 border-b px-3 py-2 transition-colors active:cursor-grabbing ${border}`}

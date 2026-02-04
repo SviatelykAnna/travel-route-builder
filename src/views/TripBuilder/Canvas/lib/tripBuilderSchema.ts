@@ -28,7 +28,9 @@ export const CountryNodeJSONSchema = BaseNodeJSONSchema.extend({
 
 export const HotelNodeDataSchema = z.object({
   name: z.string(),
-  stars: z.number().int().min(1).max(5).optional(),
+  description: z.string().optional(),
+  nights: z.number().int().min(1).optional(),
+  notes: z.array(z.string()).optional(),
 });
 
 export const HotelNodeJSONSchema = BaseNodeJSONSchema.extend({
@@ -36,11 +38,47 @@ export const HotelNodeJSONSchema = BaseNodeJSONSchema.extend({
   data: HotelNodeDataSchema,
 });
 
+export const BeachNodeDataSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+});
+
+export const BeachNodeJSONSchema = BaseNodeJSONSchema.extend({
+  type: z.literal(NODE_TYPES.BEACH),
+  data: BeachNodeDataSchema,
+});
+
+export const LandmarkNodeDataSchema = z.object({
+  name: z.string(),
+  description: z.string().optional(),
+  importance: z.string().optional(),
+});
+
+export const LandmarkNodeJSONSchema = BaseNodeJSONSchema.extend({
+  type: z.literal(NODE_TYPES.LANDMARK),
+  data: LandmarkNodeDataSchema,
+});
+
+export const RestaurantNodeDataSchema = z.object({
+  name: z.string(),
+  description: z.string().optional(),
+  cuisine: z.string().optional(),
+  reservation: z.boolean().optional(),
+});
+
+export const RestaurantNodeJSONSchema = BaseNodeJSONSchema.extend({
+  type: z.literal(NODE_TYPES.RESTAURANT),
+  data: RestaurantNodeDataSchema,
+});
+
 const AdjacencyListJSONSchema = z.record(z.string(), z.array(z.string()));
 
 export const GraphNodeJSONSchema = z.discriminatedUnion('type', [
   CountryNodeJSONSchema,
   HotelNodeJSONSchema,
+  BeachNodeJSONSchema,
+  LandmarkNodeJSONSchema,
+  RestaurantNodeJSONSchema,
 ]);
 
 export const GraphJSONSchema = z.object({
@@ -49,8 +87,12 @@ export const GraphJSONSchema = z.object({
 });
 
 export type XYPosition = z.infer<typeof XYPositionSchema>;
+
 export type CountryNodeData = z.infer<typeof CountryNodeDataSchema>;
 export type HotelNodeData = z.infer<typeof HotelNodeDataSchema>;
+export type BeachNodeData = z.infer<typeof BeachNodeDataSchema>;
+export type LandmarkNodeData = z.infer<typeof LandmarkNodeDataSchema>;
+export type RestaurantNodeData = z.infer<typeof RestaurantNodeDataSchema>;
 
 export type GraphNodeJSON = z.infer<typeof GraphNodeJSONSchema>;
 export type AdjacencyListJSON = z.infer<typeof AdjacencyListJSONSchema>;

@@ -9,6 +9,9 @@ import type { NODE_TYPES } from '../types';
 
 export type CountryNodeType = Node<CountryNodeData, typeof NODE_TYPES.COUNTRY>;
 
+const handleClass =
+  'border-card! h-2! w-2! rounded-full! border-2! bg-amber-400! ring-1! ring-amber-400!';
+
 const CountryNode = ({ data, ...props }: NodeProps<CountryNodeType>) => {
   return (
     <div
@@ -24,16 +27,8 @@ const CountryNode = ({ data, ...props }: NodeProps<CountryNodeType>) => {
       <img src={data.flags.png} alt={data.name.common} className="h-auto w-5 shrink-0" />
       <p>{data.name.common}</p>
 
-      <Handle
-        position={Position.Left}
-        type="target"
-        className="border-card! -left-1! h-2! w-2! rounded-full! border-2! bg-amber-400! ring-1! ring-amber-400!"
-      />
-      <Handle
-        position={Position.Right}
-        type="source"
-        className="border-card! -right-1! h-2! w-2! rounded-full! border-2! bg-amber-400! ring-1! ring-amber-400!"
-      />
+      <Handle position={Position.Left} type="target" className={cn(handleClass, '-left-1!')} />
+      <Handle position={Position.Right} type="source" className={cn(handleClass, '-right-1!')} />
     </div>
   );
 };

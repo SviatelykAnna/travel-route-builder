@@ -1,89 +1,80 @@
 {
   "nodes": [
     {
+      "id": "760d46b6-a3f7-4c3b-bd7b-b53fe1ad16c1",
+      "type": "landmark",
+      "position": { "x": 975.1202398100096, "y": 414.68992303299757 },
+      "data": {
+        "name": "The Great Barrier Reef",
+        "description": "A must-see spot for photos you’ll post later.",
+        "importance": "Iconic"
+      }
+    },
+    {
+      "id": "0caf6c99-eb09-4d39-ab53-fbecf6c76ee3",
+      "type": "hotel",
+      "position": { "x": 462.8957855230755, "y": 346.86604083991995 },
+      "data": {
+        "name": "Some boutique hotel",
+        "description": "Where your suitcase rests and Wi-Fi passwords are hunted.",
+        "nights": 3,
+        "notes": ["Late check-in", "Early coffee."]
+      }
+    },
+    {
+      "id": "c5754cb3-24b6-4b08-96c3-7fac58b40792",
+      "type": "restaurant",
+      "position": { "x": 414.7525676757751, "y": 563.6973642502069 },
+      "data": {
+        "name": "The Fish Shop",
+        "description": "The reason the trip budget quietly disappears.",
+        "cuisine": "Local",
+        "reservation": true
+      }
+    },
+    {
+      "id": "d0e3cb65-c5a9-40e3-91ee-20bc8ec51f8f",
+      "type": "beach",
+      "position": { "x": 469.05726779144754, "y": 201.8657678311495 },
+      "data": {
+        "name": "Whitehaven Beach",
+        "description": "Sun, sand, and the strong urge to do absolutely nothing."
+      }
+    },
+    {
+      "id": "GB",
+      "type": "country",
+      "position": { "x": 204.50492257481113, "y": -9.316109205342993 },
+      "data": {
+        "cca2": "GB",
+        "flags": {
+          "png": "https://flagcdn.com/w320/gb.png",
+          "svg": "https://flagcdn.com/gb.svg",
+          "alt": "The flag of the United Kingdom — the Union Jack — has a blue field. It features the white-edged red cross of Saint George superimposed on the diagonal red cross of Saint Patrick which is superimposed on the diagonal white cross of Saint Andrew."
+        },
+        "name": {
+          "common": "United Kingdom",
+          "official": "United Kingdom of Great Britain and Northern Ireland"
+        }
+      }
+    },
+    {
       "id": "DE",
       "type": "country",
-      "position": { "x": 120, "y": 80 },
+      "position": { "x": 559.9543924163683, "y": -11.232419492913927 },
       "data": {
+        "cca2": "DE",
         "flags": {
           "png": "https://flagcdn.com/w320/de.png",
           "svg": "https://flagcdn.com/de.svg",
           "alt": "The flag of Germany is composed of three equal horizontal bands of black, red and gold."
         },
-        "name": { "common": "Germany", "official": "Federal Republic of Germany" },
-        "cca2": "DE"
-      }
-    },
-    {
-      "id": "FR",
-      "type": "country",
-      "position": { "x": 300, "y": 80 },
-      "data": {
-        "flags": {
-          "png": "https://flagcdn.com/w320/fr.png",
-          "svg": "https://flagcdn.com/fr.svg",
-          "alt": "The flag of France is composed of three equal vertical bands of blue, white and red."
-        },
-        "name": { "common": "France", "official": "French Republic" },
-        "cca2": "FR"
-      }
-    },
-    {
-      "id": "UA",
-      "type": "country",
-      "position": { "x": 516.2564006024096, "y": 51.10843373493976 },
-      "data": {
-        "cca2": "UA",
-        "flags": {
-          "png": "https://flagcdn.com/w320/ua.png",
-          "svg": "https://flagcdn.com/ua.svg",
-          "alt": "The flag of Ukraine is composed of two equal horizontal bands of blue and yellow."
-        },
-        "name": { "common": "Ukraine", "official": "Ukraine" }
-      }
-    },
-    {
-      "id": "AZ",
-      "type": "country",
-      "position": { "x": 523.8467620481928, "y": 148.26506024096386 },
-      "data": {
-        "cca2": "AZ",
-        "flags": {
-          "png": "https://flagcdn.com/w320/az.png",
-          "svg": "https://flagcdn.com/az.svg",
-          "alt": "The flag of Azerbaijan features three equal horizontal bands of blue, red and green, with a white fly-side facing crescent and eight-pointed star centered in the red band."
-        },
-        "name": { "common": "Azerbaijan", "official": "Republic of Azerbaijan" }
-      }
-    },
-    {
-      "id": "IE",
-      "type": "country",
-      "position": { "x": 541.0124996937692, "y": -21.920664096381064 },
-      "data": {
-        "cca2": "IE",
-        "flags": {
-          "png": "https://flagcdn.com/w320/ie.png",
-          "svg": "https://flagcdn.com/ie.svg",
-          "alt": "The flag of Ireland is composed of three equal vertical bands of green, white and orange."
-        },
-        "name": { "common": "Ireland", "official": "Republic of Ireland" }
-      }
-    },
-    {
-      "id": "BB",
-      "type": "country",
-      "position": { "x": 903.5177193803364, "y": 16.84149203331643 },
-      "data": {
-        "cca2": "BB",
-        "flags": {
-          "png": "https://flagcdn.com/w320/bb.png",
-          "svg": "https://flagcdn.com/bb.svg",
-          "alt": "The flag of Barbados is composed of three equal vertical bands of ultramarine, gold and ultramarine. The head of a black trident is centered in the gold band."
-        },
-        "name": { "common": "Barbados", "official": "Barbados" }
+        "name": { "common": "Germany", "official": "Federal Republic of Germany" }
       }
     }
   ],
-  "adjacencyList": { "DE": ["FR"], "FR": ["IE", "UA", "AZ"], "AZ": ["BB"], "UA": ["BB"], "IE": [] }
+  "adjacencyList": {
+    "GB": ["0caf6c99-eb09-4d39-ab53-fbecf6c76ee3", "d0e3cb65-c5a9-40e3-91ee-20bc8ec51f8f", "DE"],
+    "DE": ["760d46b6-a3f7-4c3b-bd7b-b53fe1ad16c1"]
+  }
 }
