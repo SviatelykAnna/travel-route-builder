@@ -4,18 +4,18 @@ import type { GraphEdge, GraphNode } from './graphSchema';
 import { BaseNode } from './nodes/BaseNode';
 
 export class Graph {
-  nodes: Map<string, BaseNode>;
-  adjacencyList: Map<string, Set<string>>;
-  private edgeValidator: EdgesValidator | undefined;
+  private _nodes: Map<string, BaseNode>;
+  private _adjacencyList: Map<string, Set<string>>;
+  private _edgeValidator: EdgesValidator | undefined;
 
   constructor(params?: {
     nodes?: Map<string, BaseNode>;
     adjacencyList?: Map<string, Set<string>>;
     edgeValidator?: EdgesValidator;
   }) {
-    this.nodes = params?.nodes ?? new Map();
-    this.adjacencyList = params?.adjacencyList ?? new Map();
-    this.edgeValidator = params?.edgeValidator;
+    this._nodes = params?.nodes ?? new Map();
+    this._adjacencyList = params?.adjacencyList ?? new Map();
+    this._edgeValidator = params?.edgeValidator;
   }
 
   static fromJSON(data: unknown, options?: { edgeValidator?: EdgesValidator }): Graph {
@@ -45,14 +45,14 @@ export class Graph {
 
   toJSON(): string {
     return JSON.stringify({
-      nodes: Array.from(this.nodes.values()).map((n) => ({
+      nodes: Array.from(this._nodes.values()).map((n) => ({
         id: n.id,
         type: n.type,
         position: n.position,
         data: n.data,
       })),
       adjacencyList: Object.fromEntries(
-        Array.from(this.adjacencyList.entries()).map(([source, targets]) => [
+        Array.from(this._adjacencyList.entries()).map(([source, targets]) => [
           source,
           Array.from(targets),
         ]),
@@ -61,16 +61,16 @@ export class Graph {
   }
 
   getNode(id: string) {
-    return this.nodes.get(id);
+    return this._nodes.get(id);
   }
 
   addNode(node: unknown): void {
     const validated = NodeJSONSchema.parse(node);
-    if (this.nodes.has(validated.id)) {
+    if (this._nodes.has(validated.id)) {
       throw new Error(`Node with id ${validated.id} already exists`);
     }
 
-    this.nodes.set(
+    this._nodes.set(
       validated.id,
       new BaseNode({
         id: validated.id,
@@ -82,10 +82,10 @@ export class Graph {
   }
 
   removeNode(nodeId: string): void {
-    this.nodes.delete(nodeId);
-    this.adjacencyList.delete(nodeId);
+    this._nodes.delete(nodeId);
+    this._adjacencyList.delete(nodeId);
 
-    for (const [, targets] of this.adjacencyList) {
+    for (const [, targets] of this._adjacencyList) {
       if (targets.has(nodeId)) {
         targets.delete(nodeId);
       }
@@ -93,30 +93,37 @@ export class Graph {
   }
 
   addEdge(source: string, target: string): void {
+    const sourceNode = this._nodes.get(source);
+    const targetNode = this._nodes.get(target);
+
+    if (!sourceNode || !targetNode) {
+      throw new Error('Source or target node not found');
+    }
+
     if (source === target) {
       throw new Error('Source and target cannot be the same.');
     }
     if (!source || !target) {
       throw new Error('Source or target cannot be empty');
     }
-    if (this.edgeValidator?.isConnectionBlocked(source, target)) {
+    if (this._edgeValidator?.isConnectionBlocked(source, target)) {
       throw new Error('This route is not allowed.');
     }
     if (this._wouldCreateCycle(source, target)) {
       throw new Error('This connection would create a loop.');
     }
 
-    const targets = this.adjacencyList.get(source);
+    const targets = this._adjacencyList.get(source);
     if (targets) {
       targets.add(target);
     } else {
-      this.adjacencyList.set(source, new Set([target]));
+      this._adjacencyList.set(source, new Set([target]));
     }
   }
 
   getEdges(): GraphEdge[] {
     const edges: GraphEdge[] = [];
-    for (const [source, targets] of this.adjacencyList) {
+    for (const [source, targets] of this._adjacencyList) {
       for (const target of targets) {
         edges.push({ id: `${source}->${target}`, source, target });
       }
@@ -125,14 +132,14 @@ export class Graph {
   }
 
   removeEdge(source: string, target: string): void {
-    const targets = this.adjacencyList.get(source);
+    const targets = this._adjacencyList.get(source);
     if (targets) {
       targets.delete(target);
     }
   }
 
   getNodes(): GraphNode[] {
-    return Array.from(this.nodes.values()).map((n) => ({
+    return Array.from(this._nodes.values()).map((n) => ({
       id: n.id,
       type: n.type,
       position: n.position,
@@ -147,7 +154,7 @@ export class Graph {
     while (queue.length > 0) {
       const current = queue.shift();
       if (!current) continue;
-      const targets = this.adjacencyList.get(current);
+      const targets = this._adjacencyList.get(current);
       if (!targets) continue;
       for (const t of targets) {
         if (t === source) return true;

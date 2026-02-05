@@ -1,4 +1,4 @@
-import type { XYPosition } from '../types';
+import type { XYPosition } from '../graphSchema';
 
 export class BaseNode<
   TData extends Record<string, unknown> = Record<string, unknown>,
@@ -18,11 +18,6 @@ export class BaseNode<
 
   setPosition(position: XYPosition) {
     this.position = position;
-    return this;
-  }
-
-  updateData(updatedData: Partial<TData>) {
-    this.data = { ...this.data, ...updatedData };
     return this;
   }
 }
