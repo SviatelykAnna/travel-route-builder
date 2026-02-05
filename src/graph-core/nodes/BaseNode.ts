@@ -1,9 +1,9 @@
-import type { XYPosition } from '../graphSchema';
+import type { GraphNode, XYPosition } from '../graphSchema';
 
 export class BaseNode<
   TData extends Record<string, unknown> = Record<string, unknown>,
   TType extends string = string,
-> {
+> implements GraphNode {
   id: string;
   type: TType;
   position: XYPosition;

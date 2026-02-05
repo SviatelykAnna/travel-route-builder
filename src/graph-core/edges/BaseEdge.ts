@@ -1,11 +1,11 @@
-import type { BaseNode } from '../nodes/BaseNode';
+import type { GraphEdge } from '../graphSchema';
 
-export class BaseEdge {
+export class BaseEdge implements GraphEdge {
   id: string;
-  source: BaseNode;
-  target: BaseNode;
+  source: string;
+  target: string;
 
-  constructor({ id, source, target }: { id: string; source: BaseNode; target: BaseNode }) {
+  constructor({ id, source, target }: { id: string; source: string; target: string }) {
     this.id = id;
     this.source = source;
     this.target = target;

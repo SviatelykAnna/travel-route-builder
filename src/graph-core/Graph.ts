@@ -154,8 +154,10 @@ export class Graph {
     while (queue.length > 0) {
       const current = queue.shift();
       if (!current) continue;
+
       const targets = this._adjacencyList.get(current);
       if (!targets) continue;
+
       for (const t of targets) {
         if (t === source) return true;
         queue.push(t);

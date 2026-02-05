@@ -1,24 +1,28 @@
 import { normalizeString as n } from '@/lib/utils';
 
-export class EdgesValidator {
-  private blockedEdges: { from: string; to: string }[];
+import { type BlockedEdgesRules, EdgesRulesSchema } from './edgesValidatorSchema';
 
-  constructor(args?: { rulesJSON: string }) {
-    if (args?.rulesJSON) {
-      try {
-        const parsed = JSON.parse(args.rulesJSON) as {
-          blockedEdges?: { from: string; to: string }[];
-        };
-        this.blockedEdges = Array.isArray(parsed.blockedEdges) ? parsed.blockedEdges : [];
-      } catch {
-        throw new Error('Failed to parse edges rules JSON');
-      }
-    } else {
-      this.blockedEdges = [];
+export class EdgesValidator {
+  private readonly _blockedEdges: BlockedEdgesRules;
+
+  constructor(args: { rulesJSON: string }) {
+    try {
+      const parsedData: unknown = JSON.parse(args.rulesJSON);
+      const validatedRules = EdgesRulesSchema.parse(parsedData);
+
+      this._blockedEdges = validatedRules.blockedEdges;
+    } catch (error) {
+      throw new Error(
+        `Failed to parse edges rules JSON: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
     }
   }
 
   isConnectionBlocked(source: string, target: string): boolean {
-    return this.blockedEdges.some((rule) => n(rule.from) === n(source) && n(rule.to) === n(target));
+    return this._blockedEdges.some(
+      (rule) => n(rule.from) === n(source) && n(rule.to) === n(target),
+    );
   }
 }
